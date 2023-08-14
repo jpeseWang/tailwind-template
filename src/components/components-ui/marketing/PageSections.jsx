@@ -6,10 +6,9 @@ import ctaSections from "@/images/category-thumbnails/marketing/page-sections/ct
 import pricing from "@/images/category-thumbnails/marketing/page-sections/pricing.png";
 import header from "@/images/category-thumbnails/marketing/page-sections/header.png";
 import newsletterSections from "@/images/category-thumbnails/marketing/page-sections/newsletter-sections.png";
-import Prism from 'prismjs'
-import 'prismjs/themes/prism.css';
+import Prism from "prismjs";
+import "prismjs/themes/prism.css";
 const PageSections = () => {
-  const html = Prism.highlight('aleart(error')
   return (
     <>
       <section
@@ -139,9 +138,6 @@ const PageSections = () => {
             </div>
           </li>
         </ul>
-        <div>
-          <code>abc</code>
-        </div>
       </section>
     </>
   );
