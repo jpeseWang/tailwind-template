@@ -1,0 +1,14 @@
+.snippet-lang {
+  background-color: transparent;
+  color: #fff;
+  outline: 0;
+  border: 0;
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+  text-shadow: none;
+  background-color: #272822;
+  font-size: 0.8rem;
+  font-weight: 0.5em;
+}

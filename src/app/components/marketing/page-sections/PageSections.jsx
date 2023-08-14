@@ -8,6 +8,7 @@ import header from "@/images/category-thumbnails/marketing/page-sections/header.
 import newsletterSections from "@/images/category-thumbnails/marketing/page-sections/newsletter-sections.png";
 import Prism from "prismjs";
 import "prismjs/themes/prism.css";
+import Link from "next/link";
 const PageSections = () => {
   return (
     <>
@@ -27,10 +28,10 @@ const PageSections = () => {
                 />
               </div>
               <h4 className="mt-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600">
-                <a href="#">
+                <Link href="/components/marketing/page-sections/hero-sections">
                   <span className="absolute -inset-2.5 z-10"></span>
                   <span className="relative">Hero Sections</span>
-                </a>
+                </Link>
               </h4>
               <p className="relative mt-1.5 text-xs font-normal text-slate-500">
                 12 components
