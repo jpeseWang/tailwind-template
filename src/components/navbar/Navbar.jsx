@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import React from "react";
-import styles from "./navbar.module.css";
+
 import DarkModeToggle from "../DarkModeToggle/DarkModeToggle";
 import { signOut, useSession } from "next-auth/react";
 import { Dialog } from "@headlessui/react";
@@ -55,16 +55,22 @@ const Navbar = () => {
           className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
           aria-label="Global"
         >
-          <div className="flex lg:flex-1">
-            <Link href="#" className="-m-1.5 p-1.5">
+          <div className="flex lg:flex-1 items-center">
+            {" "}
+            <Link href="#" className="-m-1.5 p-1.5 flex items-center">
+              {" "}
               <span className="sr-only">Your Company</span>
               <img
                 className="h-8 w-auto"
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt=""
               />
+              <p className="ml-2 font-semibold aton text-gray-700">
+                Tailwind Template
+              </p>{" "}
             </Link>
           </div>
+
           <div className="flex lg:hidden">
             <button
               type="button"
