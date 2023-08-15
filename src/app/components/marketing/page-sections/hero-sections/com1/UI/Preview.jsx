@@ -10,7 +10,7 @@ const navigation = [
   { name: "Company", href: "#" },
 ];
 
-export default function SimpleCenteredUI() {
+export default function Preview() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (

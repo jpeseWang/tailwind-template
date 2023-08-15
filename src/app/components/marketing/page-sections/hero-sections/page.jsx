@@ -1,5 +1,6 @@
 import Link from "next/link";
-import SimpleCentered from "./com1/SimpleCentered";
+import Hero1 from "./com1/Hero1";
+import Hero2 from "./com2/Hero2";
 export default function Page() {
   return (
     <>
@@ -31,7 +32,8 @@ export default function Page() {
             </nav>
           </div>
           <div className="mt-10 space-y-24 pb-px">
-            <SimpleCentered />
+            <Hero1 />
+            <Hero2 />
           </div>
         </div>
       </div>
