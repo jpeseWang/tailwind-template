@@ -15,19 +15,24 @@ const navigation = [
     url: "/",
   },
   {
+    id: 5,
+    title: "About",
+    url: "/about",
+  },
+  {
     id: 2,
     title: "Components",
     url: "/components",
   },
   {
     id: 4,
-    title: "About",
-    url: "/about",
+    title: "Templates",
+    url: "/templates",
   },
   {
     id: 5,
-    title: "Contact",
-    url: "/contact",
+    title: "Docs",
+    url: "/docs",
   },
 ];
 
@@ -65,7 +70,7 @@ const Navbar = () => {
                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                 alt=""
               />
-              <p className="ml-2 font-semibold aton text-gray-700">
+              <p className="ml-2 font-semibold aton text-gray-600">
                 Tailwind Template
               </p>{" "}
             </Link>
