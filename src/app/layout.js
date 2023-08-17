@@ -1,9 +1,13 @@
 import Navbar from "@/components/navbar/Navbar";
 import "./globals.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
 import { Inter, Roboto, Poppins } from "next/font/google";
 import Footer from "@/components/footer/Footer";
 import { ThemeProvider } from "@/context/ThemeContext";
 import AuthProvider from "@/components/AuthProvider/AuthProvider";
+import { BackgroundColor } from "@/components/Theme/bgColor";
 import "prismjs/themes/prism.css"; // Import the Prism.js stylesheet
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,8 +23,10 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <ThemeProvider>
           <AuthProvider>
-            <div className="container">
+            <BackgroundColor />
+            <div className="container relative">
               <Navbar />
+
               {children}
               <Footer />
             </div>

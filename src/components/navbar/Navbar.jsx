@@ -10,11 +10,6 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const navigation = [
   {
-    id: 1,
-    title: "Home",
-    url: "/",
-  },
-  {
     id: 5,
     title: "About",
     url: "/about",
@@ -55,7 +50,7 @@ const Navbar = () => {
           </button>
         )}
       </div> */}
-      <header className="bg-white border-b mb-6">
+      <header className="bg-transparent border-b mb-6">
         <nav
           className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
           aria-label="Global"
