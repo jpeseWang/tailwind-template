@@ -2,7 +2,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import React from "react";
-
 import DarkModeToggle from "../DarkModeToggle/DarkModeToggle";
 import { signOut, useSession } from "next-auth/react";
 import { Dialog } from "@headlessui/react";
@@ -37,19 +36,6 @@ const Navbar = () => {
 
   return (
     <div>
-      {/* <div className={styles.links}>
-        <DarkModeToggle />
-        {nagivation.map((link) => (
-          <Link key={link.id} href={link.url} className={styles.link}>
-            {link.title}
-          </Link>
-        ))}
-        {session.status === "authenticated" && (
-          <button className={styles.logout} onClick={signOut}>
-            Logout
-          </button>
-        )}
-      </div> */}
       <header className="bg-transparent border-b mb-6">
         <nav
           className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
@@ -104,7 +90,7 @@ const Navbar = () => {
               <>
                 {" "}
                 <Link
-                  href="#"
+                  href="/auth/login"
                   className="text-sm font-semibold leading-6 text-gray-900"
                 >
                   Log in <span aria-hidden="true">&rarr;</span>
@@ -153,12 +139,24 @@ const Navbar = () => {
                   ))}
                 </div>
                 <div className="py-6">
-                  <a
-                    href="#"
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    Log in
-                  </a>
+                  {session.status === "authenticated" ? (
+                    <button
+                      className="text-sm font-semibold leading-6 text-gray-900"
+                      onClick={signOut}
+                    >
+                      Logout <span aria-hidden="true">&rarr;</span>
+                    </button>
+                  ) : (
+                    <>
+                      {" "}
+                      <Link
+                        href="/auth/login"
+                        className="text-sm font-semibold leading-6 text-gray-900"
+                      >
+                        Log in <span aria-hidden="true">&rarr;</span>
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

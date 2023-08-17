@@ -1,38 +1,39 @@
 "use client";
-import React, { useState } from "react";
-import styles from "./page.module.css";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { getProviders, signIn, useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import LoadingComponent from "@/app/loading";
 
 const Register = () => {
-  const [error, setError] = useState(null);
-
+  const session = useSession();
   const router = useRouter();
+  const params = useSearchParams();
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    setError(params.get("error"));
+    setSuccess(params.get("success"));
+  }, [params]);
+
+  if (session.status === "loading") {
+    return <LoadingComponent />;
+  }
+
+  if (session.status === "authenticated") {
+    router?.push("/templates");
+  }
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const name = e.target[0].value;
-    const email = e.target[1].value;
-    const password = e.target[2].value;
+    const email = e.target[0].value;
+    const password = e.target[1].value;
 
-    try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      });
-      res.status === 201 &&
-        router.push("/dashboard/login?success=Account has been created");
-    } catch (err) {
-      setError(err);
-      console.log(err);
-    }
+    signIn("credentials", {
+      email,
+      password,
+    });
   };
 
   return (
@@ -41,28 +42,18 @@ const Register = () => {
         <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div>
-              <img
-                className="h-10 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt="Your Company"
-              />
-              <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
+              <h1 className="text-green-600 font-semibold">
+                {success ? success : "Welcome Back!"}
+              </h1>
+
+              <h2 className="mt-4 text-2xl font-bold leading-9 tracking-tight text-gray-900">
                 Sign in to your account
               </h2>
-              <p className="mt-2 text-sm leading-6 text-gray-500">
-                Not a member?{" "}
-                <a
-                  href="#"
-                  className="font-semibold text-indigo-600 hover:text-indigo-500"
-                >
-                  Start a 14 day free trial
-                </a>
-              </p>
             </div>
 
             <div className="mt-10">
               <div>
-                <form action="#" method="POST" className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label
                       htmlFor="email"
@@ -77,7 +68,7 @@ const Register = () => {
                         type="email"
                         autoComplete="email"
                         required
-                        className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 py-1.5 px-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
                     </div>
                   </div>
@@ -96,7 +87,7 @@ const Register = () => {
                         type="password"
                         autoComplete="current-password"
                         required
-                        className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 py-1.5 px-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
                     </div>
                   </div>
@@ -120,7 +111,7 @@ const Register = () => {
                     <div className="text-sm leading-6">
                       <a
                         href="#"
-                        className="font-semibold text-indigo-600 hover:text-indigo-500"
+                        className="font-semibold text-slate-600 hover:text-slate-500"
                       >
                         Forgot password?
                       </a>
@@ -130,11 +121,21 @@ const Register = () => {
                   <div>
                     <button
                       type="submit"
-                      className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      className="rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 w-full"
                     >
                       Sign in
                     </button>
+                    {error && error}
                   </div>
+                  <p className="mt-2 text-sm leading-6 text-gray-500">
+                    Not a member?{" "}
+                    <Link
+                      href="/auth/register"
+                      className="font-semibold text-indigo-600 hover:text-indigo-500"
+                    >
+                      Join our Community
+                    </Link>
+                  </p>
                 </form>
               </div>
 
@@ -199,7 +200,7 @@ const Register = () => {
         <div className="relative hidden w-0 flex-1 lg:block">
           <img
             className="absolute inset-0 h-full w-full object-cover"
-            src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+            src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1364&q=80"
             alt=""
           />
         </div>
