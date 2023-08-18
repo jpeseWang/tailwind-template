@@ -1,12 +1,11 @@
 import React from "react";
 import Image from "next/image";
-import heroes from "@/images/category-thumbnails/marketing/page-sections/heroes.png";
-import featureSections from "@/images/category-thumbnails/marketing/page-sections/feature-sections.png";
-import ctaSections from "@/images/category-thumbnails/marketing/page-sections/cta-sections.png";
-import pricing from "@/images/category-thumbnails/marketing/page-sections/pricing.png";
-import header from "@/images/category-thumbnails/marketing/page-sections/header.png";
-import newsletterSections from "@/images/category-thumbnails/marketing/page-sections/newsletter-sections.png";
-import Prism from "prismjs";
+import heroes from "@/assets/images/category-thumbnails/marketing/page-sections/heroes.png";
+import featureSections from "@/assets/images/category-thumbnails/marketing/page-sections/feature-sections.png";
+import ctaSections from "@/assets/images/category-thumbnails/marketing/page-sections/cta-sections.png";
+import pricing from "@/assets/images/category-thumbnails/marketing/page-sections/pricing.png";
+import header from "@/assets/images/category-thumbnails/marketing/page-sections/header.png";
+import newsletterSections from "@/assets/images/category-thumbnails/marketing/page-sections/newsletter-sections.png";
 import "prismjs/themes/prism.css";
 import Link from "next/link";
 const PageSections = () => {

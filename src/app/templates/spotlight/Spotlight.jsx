@@ -20,7 +20,8 @@ export const SpotlightTemplate = () => {
           </p>
           <div class="mt-4 h-px w-6 bg-slate-300"></div>
           <a
-            href={"https://tailwindui.com/templates/spotlight/download"}
+            href="https://github.com/jpeseWang/tailwind-template/raw/main/src/assets/templates/spotlight.zip"
+            download
             class="relative mt-4 inline-flex items-center justify-center text-sm font-semibold text-slate-900 hover:text-sky-600"
           >
             <svg

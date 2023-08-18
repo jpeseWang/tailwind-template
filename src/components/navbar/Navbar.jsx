@@ -134,15 +134,16 @@ const Navbar = () => {
                     </Menu.Item>
                     <Menu.Item>
                       {({ active }) => (
-                        <button
+                        <Link
+                          href="#"
                           className={classNames(
                             active ? "bg-gray-100" : "",
                             "block px-4 py-2 text-sm text-gray-700"
                           )}
                           onClick={signOut}
                         >
-                          Sign out
-                        </button>
+                          Sign Out
+                        </Link>
                       )}
                     </Menu.Item>
                   </Menu.Items>
@@ -200,7 +201,7 @@ const Navbar = () => {
                     </Link>
                   ))}
                 </div>
-                <div className="py-6">
+                <Menu as="div" className="py-6">
                   {session.status === "authenticated" ? (
                     // <button
                     //   className="text-sm font-semibold leading-6 text-gray-900"
@@ -232,7 +233,7 @@ const Navbar = () => {
                           <Menu.Item>
                             {({ active }) => (
                               <Link
-                                to="/auth/profile"
+                                href="/auth/profile"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
@@ -257,7 +258,8 @@ const Navbar = () => {
                           </Menu.Item>
                           <Menu.Item>
                             {({ active }) => (
-                              <button
+                              <Link
+                                href="#"
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
@@ -265,7 +267,7 @@ const Navbar = () => {
                                 onClick={signOut}
                               >
                                 Sign out
-                              </button>
+                              </Link>
                             )}
                           </Menu.Item>
                         </Menu.Items>
@@ -282,7 +284,7 @@ const Navbar = () => {
                       </Link>
                     </>
                   )}
-                </div>
+                </Menu>
               </div>
             </div>
           </Dialog.Panel>
