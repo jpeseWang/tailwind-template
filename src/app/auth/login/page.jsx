@@ -42,11 +42,11 @@ const Register = () => {
         <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div>
-              <h1 className="text-green-600 font-semibold">
+              <h1 className="text-gray-500 font-semibold">
                 {success ? success : "Welcome Back!"}
               </h1>
 
-              <h2 className="mt-4 text-2xl font-bold leading-9 tracking-tight text-gray-900">
+              <h2 className="mt-0 text-2xl font-bold leading-9 tracking-tight text-gray-900">
                 Sign in to your account
               </h2>
             </div>
@@ -125,7 +125,10 @@ const Register = () => {
                     >
                       Sign in
                     </button>
-                    {error && error}
+                    <p className="my-2 text-red-500 font-medium">
+                      {" "}
+                      {error && error}
+                    </p>
                   </div>
                   <p className="mt-2 text-sm leading-6 text-gray-500">
                     Not a member?{" "}

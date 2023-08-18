@@ -7,6 +7,7 @@ import Link from "next/link";
 
 const Register = ({ url }) => {
   const [error, setError] = useState(null);
+  const [samePass, setSamePass] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -14,25 +15,26 @@ const Register = ({ url }) => {
     const name = e.target[0].value;
     const email = e.target[1].value;
     const password = e.target[2].value;
-
-    try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      });
-      res.status === 201 &&
-        router.push("/auth/login?success=Account has been created");
-    } catch (err) {
-      setError(err);
-      console.log(err);
-    }
+    if (password === e.target[3].value) {
+      try {
+        const res = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            password,
+          }),
+        });
+        res.status === 201 &&
+          router.push("/auth/login?success=Account has been created");
+      } catch (err) {
+        setError(err);
+        console.log(err);
+      }
+    } else setSamePass(true);
   };
 
   return (
@@ -106,6 +108,31 @@ const Register = ({ url }) => {
                   className="px-1.5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
+            </div>
+            <div>
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Confirm Password
+                </label>
+              </div>
+              <div className="mt-2">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  className="px-1.5 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+              {samePass && (
+                <p className="text-red-500 font-medium text-sm py-1">
+                  Password is not matched!
+                </p>
+              )}
             </div>
 
             <div>

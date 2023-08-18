@@ -49,9 +49,8 @@ const handler = NextAuth({
     }),
   ],
   pages: {
-    error: "/dashboard/login",
+    error: "/auth/login",
   },
-
 });
 
 export { handler as GET, handler as POST };
