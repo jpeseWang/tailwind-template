@@ -6,7 +6,14 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      unique: true,
+      required: true,
+    },
+    role: {
+      type: String,
+      required: true,
+    },
+    curentPlan: {
+      type: String,
       required: true,
     },
     email: {
