@@ -29,7 +29,6 @@ const Register = () => {
     e.preventDefault();
     const email = e.target[0].value;
     const password = e.target[1].value;
-
     signIn("credentials", {
       email,
       password,
@@ -177,9 +176,11 @@ const Register = () => {
                     </span>
                   </div>
 
-                  <a
-                    href="#"
-                    className="flex w-full items-center justify-center gap-3 rounded-md bg-[#24292F] px-3 py-1.5 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
+                  <div
+                    className="cursor-pointer flex w-full items-center justify-center gap-3 rounded-md bg-[#24292F] px-3 py-1.5 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]"
+                    onClick={() => {
+                      signIn("github");
+                    }}
                   >
                     <svg
                       className="h-5 w-5"
@@ -196,7 +197,7 @@ const Register = () => {
                     <span className="text-sm font-semibold leading-6">
                       GitHub
                     </span>
-                  </a>
+                  </div>
                 </div>
               </div>
             </div>
