@@ -9,6 +9,8 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import AuthProvider from "@/components/AuthProvider/AuthProvider";
 import { BackgroundColor } from "@/components/Theme/bgColor";
 import "prismjs/themes/prism.css"; // Import the Prism.js stylesheet
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,10 +26,12 @@ export default function RootLayout({ children }) {
         <ThemeProvider>
           <AuthProvider>
             <BackgroundColor />
+
             <div className="container relative">
               <Navbar />
 
               {children}
+              <ToastContainer />
               <Footer />
             </div>
           </AuthProvider>

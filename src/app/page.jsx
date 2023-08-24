@@ -15,7 +15,7 @@ const tiers = [
   {
     name: "Basic",
     id: "tier-freelancer",
-    href: "#",
+    href: "/components",
     price: 0,
     frequency: "/month",
     description: "The essentials to provide your best work for clients.",
@@ -31,7 +31,7 @@ const tiers = [
   {
     name: "Plus",
     id: "tier-startup",
-    href: "#",
+    href: "/payment/plus",
     price: 3,
     frequency: "/month",
     description: "A plan that scales with your rapidly growing business.",
@@ -47,7 +47,7 @@ const tiers = [
   {
     name: "Premium",
     id: "tier-enterprise",
-    href: "#",
+    href: "/payment/premium",
     price: 49,
     frequency: "one-time payment",
     description:
