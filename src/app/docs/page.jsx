@@ -1,15 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
-import { Fragment, useState } from "react";
-import { Dialog, Menu, Transition } from "@headlessui/react";
-import {
-  Cog6ToothIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
-} from "@heroicons/react/24/outline";
+import { useState } from "react";
+import { HomeIcon } from "@heroicons/react/24/outline";
 import { FaHtml5, FaReact, FaVuejs } from "react-icons/fa";
-import Link from "next/link";
+import { classNames } from "@/utils/classNames";
 import "./docs.css";
 
 const navigation = [
@@ -88,10 +82,6 @@ const teams = [
   { id: 3, name: "Illustrations", href: "#", initial: "IL", current: false },
   { id: 3, name: "Figma assets", href: "#", initial: "FM", current: false },
 ];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function Example() {
   const [currentNavItem, setCurrentNavItem] = useState("");

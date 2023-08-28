@@ -11,12 +11,13 @@ import { classNames } from "@/utils/classNames";
 
 const navigation = [
   {
-    id: 5,
+    id: 1,
     title: "About",
     url: "/about",
   },
+
   {
-    id: 2,
+    id: 3,
     title: "Components",
     url: "/components",
   },
@@ -24,6 +25,11 @@ const navigation = [
     id: 4,
     title: "Templates",
     url: "/templates",
+  },
+  {
+    id: 2,
+    title: "Community",
+    url: "/community",
   },
   {
     id: 5,
