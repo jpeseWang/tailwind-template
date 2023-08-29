@@ -4,41 +4,74 @@ import { Fragment, useState, useEffect } from "react";
 import { Combobox, Dialog, Transition } from "@headlessui/react";
 import { PhotoIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Image } from "cloudinary-react";
 import Modal from "react-modal";
-const projects = [
-  { id: 1, name: "Workflow Inc. / Website Redesign", url: "#" },
-];
+import useSWR from "swr";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function PostCreate({ isOpen, onClose }) {
   const [open, setOpen] = useState(true);
-  const [file, setFile] = useState(null);
   const [previewImg, setPreviewImg] = useState();
-  const [imageURL, setImageURL] = useState("");
+  const [imgSrc, setImageURL] = useState("");
   const [uploading, setUploading] = useState(false);
+  let date = new Date().toUTCString().slice(5, 16);
+  let datetime = new Date(date).toISOString().slice(0, 10);
+  const session = useSession();
+  const router = useRouter();
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  const { data, mutate, error, isLoading } = useSWR(
+    `/api/posts?username=${session?.data?.user.name}`,
+    fetcher
+  );
+  if (session.status === "unauthenticated") {
+    router?.push("/auth/login");
+  }
 
-  const handleFileChange = async (e) => {
+  const handlePreviewImage = (e) => {
     const selectedFile = e.target.files[0];
-
-    console.log("local img ne", selectedFile);
     selectedFile.preview = URL.createObjectURL(selectedFile);
     setPreviewImg(selectedFile);
-    setFile(selectedFile);
+  };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.append("upload_preset", "vnwxgacv");
+    formData.append("file", previewImg);
+    formData.append("upload_preset", "blogscover");
     setUploading(true);
-    const response = await fetch(
+    const data = await fetch(
       "https://api.cloudinary.com/v1_1/dfdkflzjs/image/upload",
       {
         method: "POST",
         body: formData,
       }
-    );
-    const data = await response.json();
+    ).then((response) => response.json());
+
+    // const data = await response.json();
+    // const imgUrl = await data.secure_url;
     setImageURL(data.secure_url);
     setUploading(false);
+
+    const title = e.target[0].value;
+    const content = e.target[1].value;
+    try {
+      await fetch("/api/posts", {
+        method: "POST",
+        body: JSON.stringify({
+          title,
+          content,
+          imgSrc,
+          date,
+          datetime,
+          author: session.data.user.name,
+        }),
+      });
+      mutate();
+      e.target.reset();
+    } catch (err) {
+      console.log(err);
+    }
+    router.push("/community");
   };
 
   useEffect(() => {
@@ -46,10 +79,7 @@ export default function PostCreate({ isOpen, onClose }) {
       previewImg && URL.revokeObjectURL(previewImg.preview);
     };
   }, [previewImg]);
-  useEffect(() => {
-    console.log("Link anh ne: ", imageURL);
-  }, [imageURL]);
-
+  console.log(session.data.user.email);
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose}>
       <button
@@ -91,7 +121,10 @@ export default function PostCreate({ isOpen, onClose }) {
               <Dialog.Panel className="mx-auto max-w-2xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
                 <Combobox onChange={(item) => (window.location = item.url)}>
                   <div>
-                    <form className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
+                    <form
+                      className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"
+                      onSubmit={handleSubmit}
+                    >
                       <div className="px-4 py-6 sm:p-8">
                         <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                           <div className="col-span-full">
@@ -107,8 +140,8 @@ export default function PostCreate({ isOpen, onClose }) {
                                   type="text"
                                   name="website"
                                   id="website"
-                                  className="w-full block flex-1 border-0 bg-transparent py-1.5 px-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                  placeholder="Your post's title..."
+                                  className="w-full block flex-1 border-0 bg-transparent py-1.5 px-2.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                  placeholder="Your title..."
                                 />
                               </div>
                             </div>
@@ -211,7 +244,7 @@ export default function PostCreate({ isOpen, onClose }) {
                                           name="file-upload"
                                           type="file"
                                           className="sr-only"
-                                          onChange={handleFileChange}
+                                          onChange={handlePreviewImage}
                                         />
                                       </label>
                                       <p className="pl-1">or drag and drop</p>

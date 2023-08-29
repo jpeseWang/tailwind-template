@@ -12,13 +12,33 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
-    img: {
+    imgSrc: {
       type: String,
       required: true,
     },
-    username: {
+    date: {
       type: String,
       required: true,
+    },
+    datetime: {
+      type: String,
+      required: true,
+    },
+    author: {
+      type: String,
+      required: true,
+      // name: {
+      //   type: String,
+      //   required: true,
+      // },
+      // role: {
+      //   type: String,
+      //   required: true,
+      // },
+      // imgSrc: {
+      //   type: String,
+      //   required: true,
+      // },
     },
   },
   { timestamps: true }
