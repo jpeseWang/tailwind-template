@@ -59,6 +59,13 @@ export default function BlogDetails({ params }) {
                   </span>
                 </div>
               </figcaption>
+              <figcaption className="mt-6 gap-x-4">
+                <img
+                  className="aspect-video rounded-xl bg-gray-50 object-cover"
+                  src={data.imgSrc}
+                  alt=""
+                />
+              </figcaption>
 
               <div className="mt-10 max-w-2xl">
                 <p>{data.content}</p>
