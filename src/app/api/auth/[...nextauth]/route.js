@@ -13,6 +13,7 @@ const handler = NextAuth({
       name: "Credentials",
       async authorize(credentials) {
         //Check if the user exists.
+
         await connect();
 
         try {
@@ -50,6 +51,30 @@ const handler = NextAuth({
   ],
   pages: {
     error: "/auth/login",
+  },
+  callbacks: {
+    jwt: ({ token, user }) => {
+      if (user) {
+        token.id = user.id;
+        token.username = user.username;
+        token.fullname = user.fullname;
+        token.email = user.email;
+        token.career = user.career;
+        token.avatar = user.avatar;
+      }
+      return token;
+    },
+    session: ({ session, token }) => {
+      if (token) {
+        session.id = token.id;
+        session.username = token.username;
+        session.fullname = token.fullname;
+        session.email = token.email;
+        session.career = token.career;
+        session.avatar = token.avatar;
+      }
+      return session;
+    },
   },
 });
 

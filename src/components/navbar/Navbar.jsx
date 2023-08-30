@@ -8,7 +8,8 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { classNames } from "@/utils/classNames";
-
+import useSWR from "swr";
+import { useRouter } from "next/navigation";
 const navigation = [
   {
     id: 1,
@@ -89,17 +90,25 @@ const Navbar = () => {
           <Menu as="div" className="hidden lg:flex lg:flex-1 lg:justify-end">
             {session.status === "authenticated" ? (
               <>
-                <p className="text-gray-500 pt-1">
-                  Welcome! Sensei-sama &nbsp;
+                <p className="text-gray-500 pt-1 text-sm sm:text-base pl-6">
+                  Welcome! {session.data.fullname} &nbsp;
                 </p>
                 <div>
                   <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <span className="sr-only">Open user menu</span>
-                    <img
-                      className="h-8 w-8 rounded-full"
-                      src="https://images.nightcafe.studio//assets/profile.png?tr=w-1600,c-at_max"
-                      alt=""
-                    />
+                    {session.data.avatar ? (
+                      <img
+                        className="h-8 w-8 rounded-full"
+                        src={session.data.avatar}
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        className="h-8 w-8 rounded-full"
+                        src="https://images.nightcafe.studio//assets/profile.png?tr=w-1600,c-at_max"
+                        alt=""
+                      />
+                    )}
                   </Menu.Button>
                 </div>
                 <Transition
@@ -115,7 +124,7 @@ const Navbar = () => {
                     <Menu.Item>
                       {({ active }) => (
                         <Link
-                          href="/auth/profile"
+                          href={`/auth/profile/${session.data.id}`}
                           className={classNames(
                             active ? "bg-gray-100" : "",
                             "block px-4 py-2 text-sm text-gray-700"
@@ -209,12 +218,6 @@ const Navbar = () => {
                 </div>
                 <Menu as="div" className="py-6">
                   {session.status === "authenticated" ? (
-                    // <button
-                    //   className="text-sm font-semibold leading-6 text-gray-900"
-                    //   onClick={signOut}
-                    // >
-                    //   Logout <span aria-hidden="true">&rarr;</span>
-                    // </button>
                     <>
                       <div>
                         <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -239,7 +242,7 @@ const Navbar = () => {
                           <Menu.Item>
                             {({ active }) => (
                               <Link
-                                href="/auth/profile"
+                                href={`/auth/profile/${session.data.id}`}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"

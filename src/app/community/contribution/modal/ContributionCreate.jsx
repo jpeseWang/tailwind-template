@@ -9,6 +9,8 @@ import {
   TagIcon,
 } from "@heroicons/react/24/outline";
 import Modal from "react-modal";
+import Image from "next/image";
+import bg from "@/assets/images/background/contributeCreate.jpeg";
 const projects = [
   { id: 1, name: "Workflow Inc. / Website Redesign", url: "#" },
 ];
@@ -37,8 +39,8 @@ export default function ContributionCreate({ isOpen, onClose }) {
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose}>
-      <img
-        src="https://images.unsplash.com/photo-1469521669194-babb45599def?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3542&q=80"
+      <Image
+        src={bg}
         alt="Background"
         className="absolute inset-0 w-full h-full object-cover"
       />

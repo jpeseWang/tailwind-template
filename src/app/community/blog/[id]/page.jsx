@@ -18,7 +18,6 @@ export default function BlogDetails({ params }) {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const session = useSession();
-  console.log(session);
   const router = useRouter();
 
   useEffect(() => {
@@ -46,16 +45,17 @@ export default function BlogDetails({ params }) {
                 By
                 <img
                   className="h-6 w-6 flex-none rounded-full bg-gray-50"
-                  src={data.imgSrc}
+                  src={data.authorAvatar}
                   alt=""
                 />
                 <div className="text-sm leading-6">
                   <strong className="font-semibold text-gray-900">
                     {data.author}
                   </strong>{" "}
-                  – Marketing Manager,{" "}
-                  <span className="ml-auto italic font-semibold">
-                    Published {data.date}
+                  – {data.authorCareer},{" "}
+                  <span className="ml-auto">
+                    Published{" "}
+                    <span className="italic font-semibold">{data.date}</span>
                   </span>
                 </div>
               </figcaption>

@@ -27,18 +27,15 @@ const postSchema = new Schema(
     author: {
       type: String,
       required: true,
-      // name: {
-      //   type: String,
-      //   required: true,
-      // },
-      // role: {
-      //   type: String,
-      //   required: true,
-      // },
-      // imgSrc: {
-      //   type: String,
-      //   required: true,
-      // },
+    },
+    authorCareer: {
+      type: String,
+    },
+    authorAvatar: {
+      type: String,
+    },
+    authorID: {
+      type: String,
     },
   },
   { timestamps: true }

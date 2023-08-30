@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import PostCreate from "./post-modal/PostCreate";
 import useSWR from "swr";
-import { useSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import LoadingComponent from "@/app/loading";
 
 export default function Blog() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const session = useSession();
-  console.log(session);
+  console.log("CHECK kk >> ", session);
 
   const router = useRouter();
 
@@ -21,6 +21,7 @@ export default function Blog() {
     `/api/posts?username=${session?.data?.user.name}`,
     fetcher
   );
+
   if (session.status === "loading") {
     return <LoadingComponent />;
   }
@@ -77,7 +78,7 @@ export default function Blog() {
             From the blog
           </h2>
           <p className="mt-2 text-lg leading-8 text-gray-600">
-            Learn how to grow your business with our expert advice.
+            Learn how to grow your career with our expert advice.
           </p>
           <div className="mt-16 space-y-20 lg:mt-20 lg:space-y-20">
             {isLoading ? (
@@ -121,17 +122,22 @@ export default function Blog() {
                           <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
                             <a href={post.href}>
                               <span className="absolute inset-0" />
-                              {post.title}
+                              {post.title.slice(0, 50)}
                             </a>
                           </h3>
                           <p className="mt-5 text-sm leading-6 text-gray-600">
-                            {post.content}
+                            {post.content.slice(0, 200)}
                           </p>
                         </div>
                         <div className="mt-6 flex border-t border-gray-900/5 pt-6">
-                          <div className="relative flex items-center gap-x-4">
+                          <div
+                            className="relative flex items-center gap-x-4 cursor-pointer"
+                            onClick={() => {
+                              router.push(`/auth/profile/${post.authorID}`);
+                            }}
+                          >
                             <img
-                              src="https://source.unsplash.com/random/200x200/?avatar"
+                              src={post.authorAvatar}
                               alt=""
                               className="h-10 w-10 rounded-full bg-gray-50"
                             />
@@ -143,7 +149,7 @@ export default function Blog() {
                                 </a>
                               </p>
                               <p className="text-gray-600">
-                                {post.author.role}
+                                {post.authorCareer}
                               </p>
                             </div>
                           </div>
