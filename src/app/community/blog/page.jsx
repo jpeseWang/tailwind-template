@@ -126,7 +126,7 @@ export default function Blog() {
                             </a>
                           </h3>
                           <p className="mt-5 text-sm leading-6 text-gray-600">
-                            {post.content.slice(0, 200)}
+                            {post.content.slice(0, 201)}
                           </p>
                         </div>
                         <div className="mt-6 flex border-t border-gray-900/5 pt-6">
