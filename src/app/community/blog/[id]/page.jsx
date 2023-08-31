@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import LoadingComponent from "@/app/loading";
 async function getData(id) {
   // TODO: Change this when push to repo
-  const res = await fetch(`https://tailwindui.studio/api/posts/${id}`, {
+  // http://localhost:3000
+  const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
     cache: "no-store",
   });
   if (!res.ok) {

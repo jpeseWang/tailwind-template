@@ -1,28 +1,90 @@
 "use client";
 import { useEffect } from "react";
 import { Fragment, useState } from "react";
-import { Bars3Icon } from "@heroicons/react/24/outline";
-import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/20/solid";
+import { Dialog, Transition } from "@headlessui/react";
+import {
+  Bars3Icon,
+  CalendarIcon,
+  CogIcon,
+  HomeIcon,
+  MagnifyingGlassCircleIcon,
+  MapIcon,
+  MegaphoneIcon,
+  SquaresPlusIcon,
+  UserGroupIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
+import {
+  ChevronLeftIcon,
+  EnvelopeIcon,
+  FunnelIcon,
+  MagnifyingGlassIcon,
+  PhoneIcon,
+} from "@heroicons/react/20/solid";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
 import { classNames } from "@/utils/classNames";
 import LoadingComponent from "@/app/loading";
-import NotFoundUser from "../not-found";
+
 const tabs = [
   { name: "Profile", href: "#", current: true },
   { name: "Calendar", href: "#", current: false },
   { name: "Recognition", href: "#", current: false },
 ];
 const profile = {
+  name: "Ricardo Cooper",
+  imageUrl:
+    "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80",
   coverImageUrl:
     "https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
   about: `
     <p>Tincidunt quam neque in cursus viverra orci, dapibus nec tristique. Nullam ut sit dolor consectetur urna, dui cras nec sed. Cursus risus congue arcu aenean posuere aliquam.</p>
     <p>Et vivamus lorem pulvinar nascetur non. Pulvinar a sed platea rhoncus ac mauris amet. Urna, sem pretium sit pretium urna, senectus vitae. Scelerisque fermentum, cursus felis dui suspendisse velit pharetra. Augue et duis cursus maecenas eget quam lectus. Accumsan vitae nascetur pharetra rhoncus praesent dictum risus suspendisse.</p>
   `,
+  fields: {
+    Phone: "(555) 123-4567",
+    Email: "ricardocooper@example.com",
+    Title: "Senior Front-End Developer",
+    Team: "Product Development",
+    Location: "San Francisco",
+    Sits: "Oasis, 4th floor",
+    Salary: "$145,000",
+    Birthday: "June 8, 1990",
+  },
 };
-
+const directory = {
+  Friends: [
+    {
+      id: 1,
+      name: "Leslie Abbott",
+      role: "Co-Founder / CEO",
+      imageUrl:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    },
+    {
+      id: 2,
+      name: "Hector Adams",
+      role: "VP, Marketing",
+      imageUrl:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    },
+    {
+      id: 3,
+      name: "Blake Alexander",
+      role: "Account Coordinator",
+      imageUrl:
+        "https://images.unsplash.com/photo-1520785643438-5bf77931f493?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    },
+    {
+      id: 4,
+      name: "Fabricio Andrews",
+      role: "Senior Art Director",
+      imageUrl:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    },
+  ],
+};
 const team = [
   {
     name: "Leslie Alexander",
@@ -83,9 +145,7 @@ export default function Example({ params }) {
   if (session.status === "unauthenticated") {
     router?.push("/auth/login");
   }
-  if (!data || Object.keys(data).length === 0) {
-    return <NotFoundUser />;
-  } else {
+  if (session.status === "authenticated") {
     return (
       <>
         {isLoading ? (
@@ -94,6 +154,27 @@ export default function Example({ params }) {
           <div className="flex h-full">
             <div className="hidden lg:flex lg:flex-shrink-0"></div>
             <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+              <div className="lg:hidden">
+                <div className="flex items-center justify-between border-b border-gray-200 bg-gray-50 px-4 py-1.5">
+                  <div>
+                    <img
+                      className="h-8 w-auto"
+                      src="https://tailwindui.com/img/logos/mark.svg?color=pink&shade=500"
+                      alt="Your Company"
+                    />
+                  </div>
+                  <div>
+                    <button
+                      type="button"
+                      className="-mr-3 inline-flex h-12 w-12 items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-600"
+                      onClick={() => setSidebarOpen(true)}
+                    >
+                      <span className="sr-only">Open sidebar</span>
+                      <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                    </button>
+                  </div>
+                </div>
+              </div>
               <div className="relative z-0 flex flex-1 overflow-hidden">
                 <main className="relative z-0 flex-1 overflow-y-auto focus:outline-none xl:order-last">
                   <article>
@@ -101,7 +182,7 @@ export default function Example({ params }) {
                     <div>
                       <div>
                         <img
-                          className="h-44 w-full object-cover lg:h-56"
+                          className="h-32 w-full object-cover lg:h-48"
                           src={profile.coverImageUrl}
                           alt=""
                         />

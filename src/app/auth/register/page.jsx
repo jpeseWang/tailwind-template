@@ -43,17 +43,7 @@ const Register = ({ url }) => {
       const phone = e.target[6].value;
       const password = e.target[7].value;
       const confirmpass = e.target[8].value;
-      console.log(
-        data.secure_url,
-        fullname,
-        username,
-        email,
-        dob,
-        career,
-        phone,
-        password,
-        confirmpass
-      );
+
       if (password === e.target[8].value) {
         try {
           const res = await fetch("/api/auth/register", {
