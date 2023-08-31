@@ -5,7 +5,6 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 import { Inter, Roboto, Poppins } from "next/font/google";
 import Footer from "@/components/footer/Footer";
-import { ThemeProvider } from "@/context/ThemeContext";
 import AuthProvider from "@/components/AuthProvider/AuthProvider";
 import { BackgroundColor } from "@/components/Theme/bgColor";
 import "prismjs/themes/prism.css"; // Import the Prism.js stylesheet
@@ -23,19 +22,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider>
-          <AuthProvider>
-            <BackgroundColor />
+        <AuthProvider>
+          <BackgroundColor />
 
-            <div className="container relative">
-              <Navbar />
+          <div className="container relative">
+            <Navbar />
 
-              {children}
-              <ToastContainer />
-              <Footer />
-            </div>
-          </AuthProvider>
-        </ThemeProvider>
+            {children}
+            <ToastContainer />
+            <Footer />
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );
