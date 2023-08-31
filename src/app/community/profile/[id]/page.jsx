@@ -118,7 +118,8 @@ const team = [
 async function getData(id) {
   // TODO: Change this when push to repo
   // http://localhost:3000/
-  const res = await fetch(`http://localhost:3000/api/auth/user/${id}`, {
+  //   https://tailwindui.studio
+  const res = await fetch(`https://tailwindui.studio/api/auth/user/${id}`, {
     cache: "no-store",
   });
   if (!res.ok) {

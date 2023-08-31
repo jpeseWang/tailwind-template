@@ -4,23 +4,27 @@ import { Fragment, useState, useEffect } from "react";
 import { Combobox, Dialog, Transition } from "@headlessui/react";
 import { PhotoIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import dynamic from "next/dynamic";
 import Modal from "react-modal";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import bg from "@/assets/images/background/postCreate.jpeg";
-
+import { toast } from "react-toastify";
+// import ReactQuill from "react-quill";
+let ReactQuill;
 export default function PostCreate({ isOpen, onClose }) {
   const [formTitle, setFromTitle] = useState("");
-  const [formContent, setFormConent] = useState("");
+  const [description, setDescription] = useState("");
   const [open, setOpen] = useState(true);
   const [previewImg, setPreviewImg] = useState();
   const [uploading, setUploading] = useState(false);
+  const [content, setContent] = useState("");
+  const [quillLoaded, setQuillLoaded] = useState(false);
   let date = new Date().toUTCString().slice(5, 16);
   let datetime = new Date(date).toISOString().slice(0, 10);
   const session = useSession();
-
   const router = useRouter();
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data, mutate, error, isLoading } = useSWR(
@@ -31,7 +35,13 @@ export default function PostCreate({ isOpen, onClose }) {
   if (session.status === "unauthenticated") {
     router?.push("/auth/login");
   }
-
+  useEffect(() => {
+    // Dynamically import ReactQuill on the client side
+    import("react-quill").then((module) => {
+      ReactQuill = module.default;
+      setQuillLoaded(true);
+    });
+  }, []);
   const handlePreviewImage = (e) => {
     const selectedFile = e.target.files[0];
     selectedFile.preview = URL.createObjectURL(selectedFile);
@@ -60,7 +70,8 @@ export default function PostCreate({ isOpen, onClose }) {
         method: "POST",
         body: JSON.stringify({
           title: formTitle,
-          content: formContent,
+          description: description,
+          content: content,
           imgSrc: data.secure_url,
           date,
           datetime,
@@ -79,7 +90,10 @@ export default function PostCreate({ isOpen, onClose }) {
       console.log(err);
       setUploading(false);
     }
-    location.reload();
+    toast.success("Create blog successfully!");
+    setTimeout(() => {
+      location.reload();
+    }, 2000);
   };
 
   useEffect(() => {
@@ -87,7 +101,6 @@ export default function PostCreate({ isOpen, onClose }) {
       previewImg && URL.revokeObjectURL(previewImg.preview);
     };
   }, [previewImg]);
-  console.log(session.data.user.username);
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose}>
@@ -189,25 +202,45 @@ export default function PostCreate({ isOpen, onClose }) {
 
                               <div className="col-span-full">
                                 <label
+                                  htmlFor="description"
+                                  className="block text-sm font-medium leading-6 text-gray-900"
+                                >
+                                  Description
+                                </label>
+                                <div className="mt-2">
+                                  <textarea
+                                    id="description"
+                                    name="description"
+                                    rows={3}
+                                    placeholder="Your post's description..."
+                                    className="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    defaultValue={""}
+                                    onChange={(e) =>
+                                      setDescription(e.target.value)
+                                    }
+                                  />
+                                </div>
+                              </div>
+
+                              <div className="col-span-full">
+                                <label
                                   htmlFor="content"
                                   className="block text-sm font-medium leading-6 text-gray-900"
                                 >
                                   Content
                                 </label>
-                                <div className="mt-2">
-                                  <textarea
-                                    id="content"
-                                    name="content"
-                                    rows={3}
-                                    placeholder="Your post's content..."
-                                    className="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    defaultValue={""}
-                                    onChange={(e) =>
-                                      setFormConent(e.target.value)
-                                    }
-                                  />
+
+                                <div className="mt-2 rounded-md ">
+                                  {ReactQuill && (
+                                    <ReactQuill
+                                      theme="snow"
+                                      value={content}
+                                      onChange={setContent}
+                                      style={{ height: "200px" }}
+                                    />
+                                  )}
                                 </div>
-                                <p className="mt-3 text-sm leading-6 text-gray-600">
+                                <p className="mt-12 text-sm leading-6 text-gray-600">
                                   Write an awesome post!
                                 </p>
                               </div>

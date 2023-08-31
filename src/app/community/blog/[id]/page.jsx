@@ -7,7 +7,8 @@ import LoadingComponent from "@/app/loading";
 async function getData(id) {
   // TODO: Change this when push to repo
   // http://localhost:3000
-  const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
+  //   https://tailwindui.studio
+  const res = await fetch(`https://tailwindui.studio/api/posts/${id}`, {
     cache: "no-store",
   });
   if (!res.ok) {
@@ -43,6 +44,7 @@ export default function BlogDetails({ params }) {
               <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                 {data.title}
               </h1>
+
               <figcaption className="mt-4 flex gap-x-4">
                 By
                 <img
@@ -61,6 +63,7 @@ export default function BlogDetails({ params }) {
                   </span>
                 </div>
               </figcaption>
+              <p className="mt-6 text-xl leading-8">{data.description}</p>
               <figcaption className="mt-6 gap-x-4">
                 <img
                   className="aspect-video rounded-xl bg-gray-50 object-cover"
@@ -68,10 +71,10 @@ export default function BlogDetails({ params }) {
                   alt=""
                 />
               </figcaption>
-
-              <div className="mt-10 max-w-2xl">
-                <p>{data.content}</p>
-              </div>
+              <div
+                className="mt-10 max-w-2xl"
+                dangerouslySetInnerHTML={{ __html: data.content }}
+              />
             </div>
           </div>
         </>

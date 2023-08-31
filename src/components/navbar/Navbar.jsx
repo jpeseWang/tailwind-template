@@ -90,7 +90,7 @@ const Navbar = () => {
           <Menu as="div" className="hidden lg:flex lg:flex-1 lg:justify-end">
             {session.status === "authenticated" ? (
               <>
-                <p className="text-gray-500 pt-1 text-sm sm:text-base pl-6">
+                <p className="text-gray-500 pt-1 text-base lg:text-sm pl-2">
                   Welcome! {session.data.fullname} &nbsp;
                 </p>
                 <div>
@@ -219,15 +219,26 @@ const Navbar = () => {
                 <Menu as="div" className="py-6">
                   {session.status === "authenticated" ? (
                     <>
-                      <div>
+                      <div className="flex">
                         <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                           <span className="sr-only">Open user menu</span>
-                          <img
-                            className="h-8 w-8 rounded-full"
-                            src="https://images.nightcafe.studio//assets/profile.png?tr=w-1600,c-at_max"
-                            alt=""
-                          />
+                          {session.data.avatar ? (
+                            <img
+                              className="h-8 w-8 rounded-full "
+                              src={session.data.avatar}
+                              alt=""
+                            />
+                          ) : (
+                            <img
+                              className="h-8 w-8 rounded-full"
+                              src="https://images.nightcafe.studio//assets/profile.png?tr=w-1600,c-at_max"
+                              alt=""
+                            />
+                          )}
                         </Menu.Button>
+                        <span className="text-gray-600 pt-1 px-2 font-medium">
+                          Welcome {session.data.fullname}!{" "}
+                        </span>
                       </div>
                       <Transition
                         as={Fragment}

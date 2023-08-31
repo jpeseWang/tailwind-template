@@ -55,8 +55,9 @@ const team = [
 ];
 async function getData(id) {
   // TODO: Change this when push to repo
+  //https://tailwindui.studio/
   // http://localhost:3000/
-  const res = await fetch(`http://localhost:3000/api/auth/user/${id}`, {
+  const res = await fetch(`/https://tailwindui.studio/api/auth/user/${id}`, {
     cache: "no-store",
   });
   if (!res.ok) {
@@ -83,7 +84,7 @@ export default function Example({ params }) {
   if (session.status === "unauthenticated") {
     router?.push("/auth/login");
   }
-  if (!data || Object.keys(data).length === 0) {
+  if (!data) {
     return <NotFoundUser />;
   } else {
     return (
