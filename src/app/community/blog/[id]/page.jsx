@@ -8,7 +8,7 @@ async function getData(id) {
   // TODO: Change this when push to repo
   // http://localhost:3000
   //   https://tailwindui.studio
-  const res = await fetch(`https://tailwindui.studio/api/posts/${id}`, {
+  const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
     cache: "no-store",
   });
   if (!res.ok) {
@@ -20,8 +20,6 @@ async function getData(id) {
 export default function BlogDetails({ params }) {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const session = useSession();
-  const router = useRouter();
 
   useEffect(() => {
     getData(params.id)

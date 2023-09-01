@@ -1,18 +1,22 @@
 /* eslint-disable jsx-a11y/alt-text */
 "use client";
-import { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Combobox, Dialog, Transition } from "@headlessui/react";
 import { PhotoIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import dynamic from "next/dynamic";
 import Modal from "react-modal";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import bg from "@/assets/images/background/postCreate.jpeg";
+import bg from "@/assets/images/background/contributeCreate.jpeg";
 import { toast } from "react-toastify";
-let ReactQuill;
+import Editor from "react-simple-code-editor";
+import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-javascript";
+import "prismjs/themes/prism.css";
+
 export default function PostCreate({ isOpen, onClose }) {
   const [formTitle, setFromTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -20,7 +24,8 @@ export default function PostCreate({ isOpen, onClose }) {
   const [previewImg, setPreviewImg] = useState();
   const [uploading, setUploading] = useState(false);
   const [content, setContent] = useState("");
-  const [quillLoaded, setQuillLoaded] = useState(false);
+  const [code, setCode] = useState("//Your source code go here.");
+
   let date = new Date().toUTCString().slice(5, 16);
   let datetime = new Date(date).toISOString().slice(0, 10);
   const session = useSession();
@@ -34,12 +39,7 @@ export default function PostCreate({ isOpen, onClose }) {
   if (session.status === "unauthenticated") {
     router?.push("/auth/login");
   }
-  useEffect(() => {
-    import("react-quill").then((module) => {
-      ReactQuill = module.default;
-      setQuillLoaded(true);
-    });
-  }, []);
+
   const handlePreviewImage = (e) => {
     const selectedFile = e.target.files[0];
     selectedFile.preview = URL.createObjectURL(selectedFile);
@@ -50,7 +50,7 @@ export default function PostCreate({ isOpen, onClose }) {
     e.preventDefault();
     const formData = new FormData();
     formData.append("file", previewImg);
-    formData.append("upload_preset", "blogscover");
+    formData.append("upload_preset", "contribution_cover");
     setUploading(true);
 
     try {
@@ -64,12 +64,12 @@ export default function PostCreate({ isOpen, onClose }) {
 
       const data = await response.json();
 
-      await fetch("/api/posts", {
+      await fetch("/api/contribution", {
         method: "POST",
         body: JSON.stringify({
           title: formTitle,
           description: description,
-          content: content,
+          sourceCode: code,
           imgSrc: data.secure_url,
           date,
           datetime,
@@ -85,12 +85,11 @@ export default function PostCreate({ isOpen, onClose }) {
       e.target.reset();
       setUploading(false);
       onClose();
-      toast.success("Create blog successfully!");
     } catch (err) {
       console.log(err);
       setUploading(false);
-      toast.error("Something went wrong!");
     }
+    toast.success("Create template successfully!");
     setTimeout(() => {
       location.reload();
     }, 2000);
@@ -227,21 +226,28 @@ export default function PostCreate({ isOpen, onClose }) {
                                   htmlFor="content"
                                   className="block text-sm font-medium leading-6 text-gray-900"
                                 >
-                                  Content
+                                  Source Code
                                 </label>
 
                                 <div className="mt-2 rounded-md ">
-                                  {ReactQuill && (
-                                    <ReactQuill
-                                      theme="snow"
-                                      value={content}
-                                      onChange={setContent}
-                                      style={{ height: "200px" }}
-                                    />
-                                  )}
+                                  <Editor
+                                    value={code}
+                                    onValueChange={(code) => setCode(code)}
+                                    highlight={(code) =>
+                                      highlight(code, languages.js)
+                                    }
+                                    padding={10}
+                                    style={{
+                                      fontFamily:
+                                        '"Fira code", "Fira Mono", monospace',
+                                      fontSize: 15,
+                                      border: "1px solid #d1d5db",
+                                      borderRadius: "5px",
+                                    }}
+                                  />
                                 </div>
-                                <p className="mt-12 text-sm leading-6 text-gray-600">
-                                  Write an awesome post!
+                                <p className="mt-2 text-sm leading-6 text-gray-600">
+                                  Create an awesome template!
                                 </p>
                               </div>
 

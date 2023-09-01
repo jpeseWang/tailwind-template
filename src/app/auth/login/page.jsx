@@ -4,6 +4,9 @@ import Link from "next/link";
 import { getProviders, signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import LoadingComponent from "@/app/loading";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const session = useSession();
@@ -11,6 +14,7 @@ const Register = () => {
   const params = useSearchParams();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loadingSpin, setLoadingSpin] = useState(false);
 
   useEffect(() => {
     setError(params.get("error"));
@@ -25,14 +29,22 @@ const Register = () => {
     router?.push("/templates");
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoadingSpin(true);
     const email = e.target[0].value;
     const password = e.target[1].value;
-    signIn("credentials", {
-      email,
-      password,
-    });
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+      });
+
+      setLoadingSpin(false);
+    } catch (error) {
+      console.error("Sign-in error:", error);
+      setLoadingSpin(false);
+    }
   };
 
   return (
@@ -120,9 +132,21 @@ const Register = () => {
                   <div>
                     <button
                       type="submit"
-                      className="rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 w-full"
+                      className="rounded-lg text-sm font-semibold py-2 px-4 bg-slate-900 text-white hover:bg-slate-700 w-full relative"
+                      disabled={loadingSpin}
                     >
-                      Sign in
+                      <div className="flex items-center justify-center">
+                        {loadingSpin && (
+                          <>
+                            <FontAwesomeIcon
+                              icon={faCircleNotch}
+                              spin
+                              className="text-indigo-500 h-5 w-5 mr-2"
+                            />
+                          </>
+                        )}
+                        Sign in
+                      </div>
                     </button>
                     <p className="my-2 text-red-500 font-medium">
                       {" "}

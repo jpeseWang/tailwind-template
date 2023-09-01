@@ -14,84 +14,38 @@ const tabs = [
   { name: "Calendar", href: "#", current: false },
   { name: "Recognition", href: "#", current: false },
 ];
-const profile = {
-  coverImageUrl:
-    "https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-  about: `
-    <p>Tincidunt quam neque in cursus viverra orci, dapibus nec tristique. Nullam ut sit dolor consectetur urna, dui cras nec sed. Cursus risus congue arcu aenean posuere aliquam.</p>
-    <p>Et vivamus lorem pulvinar nascetur non. Pulvinar a sed platea rhoncus ac mauris amet. Urna, sem pretium sit pretium urna, senectus vitae. Scelerisque fermentum, cursus felis dui suspendisse velit pharetra. Augue et duis cursus maecenas eget quam lectus. Accumsan vitae nascetur pharetra rhoncus praesent dictum risus suspendisse.</p>
-  `,
-};
 
-const team = [
-  {
-    name: "Leslie Alexander",
-    handle: "lesliealexander",
-    role: "Co-Founder / CEO",
-    imageUrl:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Michael Foster",
-    handle: "michaelfoster",
-    role: "Co-Founder / CTO",
-    imageUrl:
-      "https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Dries Vincent",
-    handle: "driesvincent",
-    role: "Business Relations",
-    imageUrl:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    name: "Lindsay Walton",
-    handle: "lindsaywalton",
-    role: "Front-end Developer",
-    imageUrl:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-];
-async function getData(id) {
-  // TODO: Change this when push to repo
-  //https://tailwindui.studio/
-  // http://localhost:3000/
-  const res = await fetch(`/https://tailwindui.studio/api/auth/user/${id}`, {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  return res.json();
-}
 export default function Example({ params }) {
-  const [data, setData] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
+  const [dataLoaded, setDataLoaded] = useState(false);
   const session = useSession();
-  console.log(session);
   const router = useRouter();
 
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  const { data, mutate, error, isLoading } = useSWR(
+    `/api/auth/user/${params.id}`,
+    fetcher
+  );
+  const { data: friendRequestData } = useSWR("/api/auth/user", fetcher);
+
   useEffect(() => {
-    getData(params.id)
-      .then((data) => setData(data))
-      .catch((error) => console.error(error));
-    setIsLoading(false);
-  }, [params.id]);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+    if (data && friendRequestData) {
+      setDataLoaded(true);
+    }
+  }, [data, friendRequestData]);
 
   if (session.status === "unauthenticated") {
     router?.push("/auth/login");
   }
-  if (!data) {
+  if (!dataLoaded) {
+    return <LoadingComponent />;
+  } else if (!data) {
     return <NotFoundUser />;
   } else {
     return (
       <>
         {isLoading ? (
           <LoadingComponent />
-        ) : (
+        ) : data.fullname ? (
           <div className="flex h-full">
             <div className="hidden lg:flex lg:flex-shrink-0"></div>
             <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
@@ -103,7 +57,7 @@ export default function Example({ params }) {
                       <div>
                         <img
                           className="h-44 w-full object-cover lg:h-56"
-                          src={profile.coverImageUrl}
+                          src={data.coverImg}
                           alt=""
                         />
                       </div>
@@ -235,10 +189,9 @@ export default function Example({ params }) {
                           <dt className="text-sm font-medium text-gray-500">
                             About
                           </dt>
-                          <dd
-                            className="mt-1 max-w-prose space-y-5 text-sm text-gray-900"
-                            dangerouslySetInnerHTML={{ __html: profile.about }}
-                          />
+                          <dd className="mt-1 max-w-prose space-y-5 text-sm text-gray-900">
+                            {data.about}
+                          </dd>
                         </div>
                       </dl>
                     </div>
@@ -246,37 +199,40 @@ export default function Example({ params }) {
                     {/* Team member list */}
                     <div className="mx-auto mt-8 max-w-5xl px-4 pb-12 sm:px-6 lg:px-8">
                       <h2 className="text-sm font-medium text-gray-500">
-                        Team members
+                        Friends recommendation
                       </h2>
+
                       <div className="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        {team.map((person) => (
-                          <div
-                            key={person.handle}
-                            className="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2 hover:border-gray-400"
-                          >
-                            <div className="flex-shrink-0">
-                              <img
-                                className="h-10 w-10 rounded-full"
-                                src={person.imageUrl}
-                                alt=""
-                              />
-                            </div>
-                            <div className="min-w-0 flex-1">
-                              <a href="#" className="focus:outline-none">
-                                <span
-                                  className="absolute inset-0"
-                                  aria-hidden="true"
+                        {friendRequestData
+                          .filter((p) => p._id !== session.data.id)
+                          .map((person) => (
+                            <div
+                              key={person._id}
+                              className="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2 hover:border-gray-400"
+                            >
+                              <div className="flex-shrink-0">
+                                <img
+                                  className="h-10 w-10 rounded-full"
+                                  src={person.avatar}
+                                  alt=""
                                 />
-                                <p className="text-sm font-medium text-gray-900">
-                                  {person.name}
-                                </p>
-                                <p className="truncate text-sm text-gray-500">
-                                  {person.role}
-                                </p>
-                              </a>
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <a href="#" className="focus:outline-none">
+                                  <span
+                                    className="absolute inset-0"
+                                    aria-hidden="true"
+                                  />
+                                  <p className="text-sm font-medium text-gray-900">
+                                    {person.fullname}
+                                  </p>
+                                  <p className="truncate text-sm text-gray-500">
+                                    {person.career}
+                                  </p>
+                                </a>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
                       </div>
                     </div>
                   </article>
@@ -284,6 +240,8 @@ export default function Example({ params }) {
               </div>
             </div>
           </div>
+        ) : (
+          <LoadingComponent />
         )}
       </>
     );

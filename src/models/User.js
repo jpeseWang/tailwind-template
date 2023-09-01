@@ -43,6 +43,14 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    coverImg: {
+      type: String,
+      required: false,
+    },
+    about: {
+      type: String,
+      required: false,
+    },
   },
   { timestamps: true }
 );

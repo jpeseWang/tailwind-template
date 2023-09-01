@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-key */
 "use client";
-import { create } from "zustand";
 import { Highlight, themes } from "prism-react-renderer";
 import customTheme from "@/app/styles/customeTheme";
 import "./styles.css";

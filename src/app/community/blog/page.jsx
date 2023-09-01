@@ -3,19 +3,15 @@ import React, { useState } from "react";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import PostCreate from "./post-modal/PostCreate";
 import useSWR from "swr";
-import { useSession, getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import LoadingComponent from "@/app/loading";
-import LoadingBlog from "./loading";
+import LoadingBlog from "../loading";
 
 export default function Blog() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const session = useSession();
-  console.log("CHECK kk >> ", session);
-
   const router = useRouter();
-
-  //NEW WAY TO FETCH DATA
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
   const { data, mutate, error, isLoading } = useSWR(
