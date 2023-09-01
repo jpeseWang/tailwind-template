@@ -7,10 +7,7 @@ import LoadingComponent from "@/app/loading";
 
 import CodePreview from "@/components/CodeBlock/CodeBlock";
 async function getData(id) {
-  // TODO: Change this when push to repo
-  // http://localhost:3000
-  //   https://tailwindui.studio
-  const res = await fetch(`http://localhost:3000/api/contribution/${id}`, {
+  const res = await fetch(`/api/contribution/${id}`, {
     cache: "no-store",
   });
   if (!res.ok) {
@@ -115,7 +112,7 @@ export default function ContributionDetails({ params }) {
                     href="#"
                     className="text-base font-semibold leading-7 text-indigo-600"
                   >
-                    Learn more about our company{" "}
+                    Get more about our template{" "}
                     <span aria-hidden="true">&rarr;</span>
                   </a>
                 </div>
