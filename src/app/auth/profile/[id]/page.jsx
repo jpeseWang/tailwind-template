@@ -11,8 +11,8 @@ import LoadingComponent from "@/app/loading";
 import NotFoundUser from "../not-found";
 const tabs = [
   { name: "Profile", href: "#", current: true },
-  { name: "Calendar", href: "#", current: false },
-  { name: "Recognition", href: "#", current: false },
+  { name: "Blog", href: "#", current: false },
+  { name: "Contribution", href: "#", current: false },
 ];
 
 export default function Example({ params }) {

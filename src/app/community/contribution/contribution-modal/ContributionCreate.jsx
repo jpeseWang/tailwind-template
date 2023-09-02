@@ -45,7 +45,10 @@ export default function PostCreate({ isOpen, onClose }) {
     selectedFile.preview = URL.createObjectURL(selectedFile);
     setPreviewImg(selectedFile);
   };
-
+  const initialRating = {
+    username: session.data.username,
+    score: 0,
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -78,6 +81,7 @@ export default function PostCreate({ isOpen, onClose }) {
           authorAvatar: session.data.avatar,
           authorID: session.data.id,
           authorUsername: session.data.username,
+          ratings: [initialRating],
         }),
       });
 

@@ -37,7 +37,6 @@ export default function Example({ params }) {
   const session = useSession();
   const router = useRouter();
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
-
   const { data, mutate, error, isLoading } = useSWR(
     `/api/auth/user/${params.id}`,
     fetcher

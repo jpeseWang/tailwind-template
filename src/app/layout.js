@@ -1,10 +1,10 @@
-import Navbar from "@/components/navbar/Navbar";
+import Navbar from "@/components/Navbar/Navbar";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 import { Inter, Roboto, Poppins } from "next/font/google";
-import Footer from "@/components/footer/Footer";
+import Footer from "@/components/Footer/Footer";
 import AuthProvider from "@/components/AuthProvider/AuthProvider";
 import { BackgroundColor } from "@/components/Theme/bgColor";
 import ToastProvider from "@/components/ToastContainer/ToastContainer";

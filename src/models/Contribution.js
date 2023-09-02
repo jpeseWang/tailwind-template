@@ -44,6 +44,21 @@ const contributionSchema = new Schema(
     authorUsername: {
       type: String,
     },
+    ratings: [
+      {
+        username: {
+          type: String,
+          required: true,
+        },
+        score: {
+          type: Number,
+          required: true,
+          min: 0,
+          max: 5,
+        },
+      },
+      { timestamps: true },
+    ],
   },
   { timestamps: true }
 );
