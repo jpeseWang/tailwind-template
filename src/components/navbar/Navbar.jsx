@@ -39,7 +39,7 @@ const navigation = [
   },
 ];
 
-const Navbar = () => {
+export default function Navbar() {
   const session = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -312,6 +312,4 @@ const Navbar = () => {
       </header>
     </div>
   );
-};
-
-export default Navbar;
+}
