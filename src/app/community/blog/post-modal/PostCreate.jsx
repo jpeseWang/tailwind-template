@@ -13,7 +13,8 @@ import Image from "next/image";
 import bg from "@/assets/images/background/postCreate.jpeg";
 import { toast } from "react-toastify";
 let ReactQuill;
-export default function PostCreate({ isOpen, onClose }) {
+
+export default function PostCreate({ isOpen, onClose, reload }) {
   const [formTitle, setFromTitle] = useState("");
   const [description, setDescription] = useState("");
   const [open, setOpen] = useState(true);
@@ -26,10 +27,6 @@ export default function PostCreate({ isOpen, onClose }) {
   const session = useSession();
   const router = useRouter();
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  const { data, mutate, error, isLoading } = useSWR(
-    `/api/posts?username=${session?.data?.user.email}`,
-    fetcher
-  );
 
   if (session.status === "unauthenticated") {
     router?.push("/auth/login");
@@ -81,7 +78,7 @@ export default function PostCreate({ isOpen, onClose }) {
         }),
       });
 
-      mutate();
+      reload();
       e.target.reset();
       setUploading(false);
       onClose();
@@ -91,9 +88,6 @@ export default function PostCreate({ isOpen, onClose }) {
       setUploading(false);
       toast.error("Something went wrong!");
     }
-    setTimeout(() => {
-      location.reload();
-    }, 2000);
   };
 
   useEffect(() => {

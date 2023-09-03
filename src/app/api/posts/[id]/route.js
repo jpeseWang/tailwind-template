@@ -29,3 +29,24 @@ export const DELETE = async (request, { params }) => {
     return new NextResponse("Database Error", { status: 500 });
   }
 };
+
+export const PUT = async (request, { params }) => {
+  const { id } = params;
+  const newComment = await request.json();
+
+  try {
+    await connect();
+    const post = await Post.findByIdAndUpdate(id);
+    if (!post) {
+      return new NextResponse("Post not found", { status: 404 });
+    }
+
+    post.comment = post.comment.concat(newComment);
+
+    await post.save();
+
+    return new NextResponse("Post has been updated", { status: 200 });
+  } catch (err) {
+    return new NextResponse("Database Error", { status: 500 });
+  }
+};

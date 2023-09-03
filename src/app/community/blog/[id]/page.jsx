@@ -4,26 +4,15 @@ import useSWR from "swr";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import LoadingComponent from "@/app/loading";
-async function getData(id) {
-  const res = await fetch(`/api/posts/${id}`, {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
+import PostComment from "./comment/post-comment";
 
-  return res.json();
-}
 export default function BlogDetails({ params }) {
-  const [data, setData] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  const { data, mutate, error, isLoading } = useSWR(
+    `/api/posts/${params.id}`,
+    fetcher
+  );
 
-  useEffect(() => {
-    getData(params.id)
-      .then((data) => setData(data))
-      .catch((error) => console.error(error));
-    setIsLoading(false);
-  }, [params.id]);
   return (
     <>
       {" "}
@@ -71,6 +60,7 @@ export default function BlogDetails({ params }) {
                 dangerouslySetInnerHTML={{ __html: data.content }}
               />
             </div>
+            <PostComment id={params.id} data={data} reload={mutate} />
           </div>
         </>
       )}

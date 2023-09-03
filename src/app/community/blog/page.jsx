@@ -159,7 +159,9 @@ export default function Blog() {
           </div>
         </div>
       </div>
-      {modalIsOpen && <PostCreate isOpen={modalIsOpen} onClose={closeModal} />}
+      {modalIsOpen && (
+        <PostCreate isOpen={modalIsOpen} onClose={closeModal} reload={mutate} />
+      )}
     </div>
   );
 }

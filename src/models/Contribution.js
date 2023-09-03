@@ -46,13 +46,20 @@ const contributionSchema = new Schema(
     },
     ratings: [
       {
-        username: {
+        name: {
           type: String,
-          required: true,
+        },
+        id: {
+          type: String,
+        },
+        avatar: {
+          type: String,
+        },
+        content: {
+          type: String,
         },
         score: {
           type: Number,
-          required: true,
           min: 0,
           max: 5,
         },

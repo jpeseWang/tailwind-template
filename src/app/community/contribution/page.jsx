@@ -150,7 +150,11 @@ export default function Contribution() {
         )}
       </div>
       {modalIsOpen && (
-        <ContributionCreate isOpen={modalIsOpen} onClose={closeModal} />
+        <ContributionCreate
+          isOpen={modalIsOpen}
+          onClose={closeModal}
+          reload={mutate}
+        />
       )}
     </div>
   );

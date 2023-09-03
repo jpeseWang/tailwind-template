@@ -2,60 +2,18 @@
 import { useState, useEffect } from "react";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import LoadingComponent from "@/app/loading";
-import ReactStars from "react-stars";
 import CodePreview from "@/components/CodeBlock/CodeBlock";
-import Rating from "react-rating-stars-component";
-async function getData(id) {
-  const res = await fetch(`/api/contribution/${id}`, {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
+import ContributionReviews from "./reviews/contribution-reviews";
 
-  return res.json();
-}
 export default function ContributionDetails({ params }) {
-  const [data, setData] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedRating, setSelectedRating] = useState(0);
-  const [uploading, setUploading] = useState(false);
-  const session = useSession();
-
-  useEffect(() => {
-    getData(params.id)
-      .then((data) => setData(data))
-      .catch((error) => console.error(error));
-    setIsLoading(false);
-  }, [params.id]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(`/api/contribution/${params.id}`, {
-        method: "PUT",
-        body: JSON.stringify({
-          username: session.data.username,
-          score: selectedRating,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        console.log("Rating updated successfully");
-      } else {
-        console.error("Failed to update rating");
-      }
-
-      e.target.reset();
-      setUploading(false);
-    } catch (error) {
-      console.error("Error updating rating:", error);
-    }
-  };
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  const { data, mutate, error, isLoading } = useSWR(
+    `/api/contribution/${params.id}`,
+    fetcher
+  );
+  const [showSourceCode, setShowSourceCode] = useState(false);
+  const router = useRouter();
 
   return (
     <>
@@ -137,128 +95,37 @@ export default function ContributionDetails({ params }) {
                 </div>
 
                 <div className="mt-10 flex">
-                  <a
-                    href="#"
-                    className="text-base font-semibold leading-7 text-indigo-600"
+                  <div
+                    className="cursor-pointer text-base font-semibold leading-7 text-indigo-600"
+                    onClick={() => {
+                      router.push("/components");
+                    }}
                   >
                     Get more about our template{" "}
                     <span aria-hidden="true">&rarr;</span>
-                  </a>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="my-16">
-              {data.ratings && (
-                <h2>
-                  Average:{" "}
-                  {(
-                    data.ratings.reduce(
-                      (total, mark) => total + mark.score,
-                      0
-                    ) / data.ratings.length
-                  ).toFixed(1)}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6 inline"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
-                    />
-                  </svg>
-                </h2>
-              )}
-              <h3>
-                {data.ratings &&
-                  data.ratings.map((mark) => (
-                    <h1 key={mark.id}>
-                      {mark.username}: {mark.score}
-                    </h1>
-                  ))}
-              </h3>
+            <div className="my-16 ">
               <span className="text-gray-600 font-semibold text-lg">
                 Source Code
               </span>
+              <button
+                class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1.5 px-3 ml-3 border border-blue-500 hover:border-transparent rounded text-xs"
+                onClick={() => {
+                  setShowSourceCode(!showSourceCode);
+                }}
+              >
+                Show
+              </button>
               {data.sourceCode ? (
-                <CodePreview code={data.sourceCode} />
+                showSourceCode && <CodePreview code={data.sourceCode} />
               ) : (
                 <p>Loading...</p>
               )}
             </div>
-            {session.status === "authenticated" ? (
-              <div className="flex items-start space-x-4">
-                <div className="flex-shrink-0">
-                  <img
-                    className="inline-block h-10 w-10 rounded-full"
-                    src={session.data.avatar}
-                    alt=""
-                  />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <form className="relative" onSubmit={handleSubmit}>
-                    <div className="col-span-1 flex flex-col items-start space-y-2">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-gray-600 inline font-medium">
-                          Rate this:
-                        </span>
-                        <ReactStars
-                          count={5}
-                          size={22}
-                          color2={"#ffd700"}
-                          value={selectedRating}
-                          onChange={(newValue) => setSelectedRating(newValue)}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="col-span-1 overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
-                        <label htmlFor="comment" className="sr-only">
-                          Add your comment
-                        </label>
-                        <textarea
-                          rows={3}
-                          name="comment"
-                          id="comment"
-                          className="block w-full resize-none border-0 bg-transparent py-1.5 px-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                          placeholder="Add your comment..."
-                          defaultValue={""}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="absolute inset-x-0 bottom-0 flex justify-between py-2 pl-3 pr-2 w-1/2">
-                      <div className="flex items-center space-x-5">
-                        <div className="flex items-center">
-                          <button
-                            type="button"
-                            className="-m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
-                          >
-                            <span className="sr-only">Attach a file</span>
-                          </button>
-                        </div>
-                        <div className="flex items-center"></div>
-                      </div>
-                      <div className="flex-shrink-0">
-                        <button
-                          type="submit"
-                          className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 mr-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        >
-                          Post
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            ) : (
-              <></>
-            )}
+            <ContributionReviews id={params.id} data={data} reload={mutate} />
           </div>
         </div>
       )}

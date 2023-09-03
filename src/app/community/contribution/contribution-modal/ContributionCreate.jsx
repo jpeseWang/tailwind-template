@@ -17,7 +17,7 @@ import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import "prismjs/themes/prism.css";
 
-export default function PostCreate({ isOpen, onClose }) {
+export default function PostCreate({ isOpen, onClose, reload }) {
   const [formTitle, setFromTitle] = useState("");
   const [description, setDescription] = useState("");
   const [open, setOpen] = useState(true);
@@ -30,11 +30,6 @@ export default function PostCreate({ isOpen, onClose }) {
   let datetime = new Date(date).toISOString().slice(0, 10);
   const session = useSession();
   const router = useRouter();
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  const { data, mutate, error, isLoading } = useSWR(
-    `/api/posts?username=${session?.data?.user.email}`,
-    fetcher
-  );
 
   if (session.status === "unauthenticated") {
     router?.push("/auth/login");
@@ -45,10 +40,7 @@ export default function PostCreate({ isOpen, onClose }) {
     selectedFile.preview = URL.createObjectURL(selectedFile);
     setPreviewImg(selectedFile);
   };
-  const initialRating = {
-    username: session.data.username,
-    score: 0,
-  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -81,22 +73,18 @@ export default function PostCreate({ isOpen, onClose }) {
           authorAvatar: session.data.avatar,
           authorID: session.data.id,
           authorUsername: session.data.username,
-          ratings: [initialRating],
         }),
       });
-
-      mutate();
+      reload();
       e.target.reset();
       setUploading(false);
       onClose();
     } catch (err) {
       console.log(err);
       setUploading(false);
+      toast.error("Error uploading!");
     }
     toast.success("Create template successfully!");
-    setTimeout(() => {
-      location.reload();
-    }, 2000);
   };
 
   useEffect(() => {

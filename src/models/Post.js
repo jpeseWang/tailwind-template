@@ -44,6 +44,26 @@ const postSchema = new Schema(
     authorUsername: {
       type: String,
     },
+    comment: [
+      {
+        name: {
+          type: String,
+        },
+        id: {
+          type: String,
+        },
+        avatar: {
+          type: String,
+        },
+        content: {
+          type: String,
+        },
+        date: {
+          type: String,
+        },
+      },
+      { timestamps: true },
+    ],
   },
   { timestamps: true }
 );
