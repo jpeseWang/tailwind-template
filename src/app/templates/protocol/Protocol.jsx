@@ -6,7 +6,7 @@ export const ProtocolTemplate = () => {
         <div class="sm:pt-2 md:pr-6 lg:relative lg:ml-auto lg:w-[19.5rem] lg:flex-none lg:pl-8 lg:pr-0">
           <div class="flex items-center gap-2">
             <h2 class="text-base font-semibold text-slate-900">
-              <a href="https://tailwindui.com/templates/protocol">
+              <a href="https://protocol.tailwindui.com/">
                 <span class="absolute inset-0 lg:left-8"></span>Protocol
               </a>
             </h2>
@@ -47,7 +47,7 @@ export const ProtocolTemplate = () => {
             <a
               tabindex="-1"
               class="hidden lg:absolute lg:inset-y-0 lg:-left-8 lg:right-8 lg:z-10 lg:block"
-              href="https://tailwindui.com/templates/protocol"
+              href="https://protocol.tailwindui.com"
             >
               <span class="sr-only">View Protocol template</span>
             </a>

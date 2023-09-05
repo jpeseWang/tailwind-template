@@ -11,11 +11,11 @@ import {
 import { classNames } from "@/utils/classNames";
 import useSWR from "swr";
 import LoadingComponent from "@/app/loading";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { SubscriptionContext } from "@/context/SubscriptionContext";
-
+import { toast } from "react-hot-toast";
 const secondaryNavigation = [
   { name: "General", href: "#", icon: UserCircleIcon, current: true },
   { name: "Security", href: "#", icon: FingerPrintIcon, current: false },
@@ -139,6 +139,9 @@ export default function Example({ params }) {
                         <button
                           type="button"
                           className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                          onClick={() => {
+                            toast.success("Welcome");
+                          }}
                         >
                           Change avatar
                         </button>

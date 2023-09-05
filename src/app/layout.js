@@ -12,6 +12,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header/Header";
+import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "Tailwind Template",
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
         <ToastProvider>
           <AuthProvider>
             <SubscriptionContextProvider>
+              <Toaster />
               <BackgroundColor />
               <div className="container relative">
                 <Header />

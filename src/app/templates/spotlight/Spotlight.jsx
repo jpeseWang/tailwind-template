@@ -48,7 +48,7 @@ export const SpotlightTemplate = () => {
             <a
               tabindex="-1"
               class="hidden lg:absolute lg:inset-y-0 lg:-left-8 lg:right-8 lg:z-10 lg:block"
-              href="https://tailwindui.com/templates/spotlight"
+              href="https://spotlight.tailwindui.com"
             >
               <span class="sr-only">View Spotlight template</span>
             </a>
