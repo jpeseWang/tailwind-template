@@ -4,6 +4,7 @@ import { StarIcon } from "@heroicons/react/20/solid";
 import { classNames } from "@/utils/classNames";
 import ReactStars from "react-rating-stars-component";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 const reviews = {
   average: 4,
@@ -23,6 +24,7 @@ export default function ContributionReviews({ id, data, reload }) {
   const [content, setContent] = useState("");
   const [uploading, setUploading] = useState(false);
   const session = useSession();
+  const router = useRouter();
   //Calculate rating Porpotion
   let review = null;
   if (data && data.ratings) {
@@ -114,6 +116,7 @@ export default function ContributionReviews({ id, data, reload }) {
       }
       reload();
       e.target.reset();
+      setSelectedRating(0);
       setUploading(false);
     } catch (error) {
       console.error("Error updating rating:", error);
@@ -246,7 +249,11 @@ export default function ContributionReviews({ id, data, reload }) {
                 href="#"
                 className="mt-6 inline-flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 sm:w-auto lg:w-full"
                 onClick={() => {
-                  setOpenReviews(!openReviews);
+                  if (session.status === "authenticated") {
+                    setOpenReviews(!openReviews);
+                  } else if (session.status === "unauthenticated") {
+                    router.push("/auth/login");
+                  }
                 }}
               >
                 Write a review

@@ -11,6 +11,7 @@ import LoadingBlog from "../loading";
 export default function Blog() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const session = useSession();
+  console.log(">>CHECK", session);
   const router = useRouter();
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 

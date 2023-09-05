@@ -7,7 +7,7 @@ import LoadingComponent from "@/app/loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
-
+import { SubscriptionContext } from "@/context/SubscriptionContext";
 const Register = () => {
   const session = useSession();
   const router = useRouter();
@@ -26,7 +26,7 @@ const Register = () => {
   }
 
   if (session.status === "authenticated") {
-    router?.push("/templates");
+    router?.push("/components");
   }
 
   const handleSubmit = async (e) => {

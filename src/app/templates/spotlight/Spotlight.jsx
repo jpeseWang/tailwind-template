@@ -6,7 +6,7 @@ export const SpotlightTemplate = () => {
         <div class="sm:pt-2 md:pr-6 lg:relative lg:ml-auto lg:w-[19.5rem] lg:flex-none lg:pl-8 lg:pr-0">
           <div class="flex items-center gap-2">
             <h2 class="text-base font-semibold text-slate-900">
-              <a href="https://tailwindui.com/templates/spotlight">
+              <a href="https://spotlight.tailwindui.com">
                 <span class="absolute inset-0 lg:left-8"></span>Spotlight
               </a>
             </h2>

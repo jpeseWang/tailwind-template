@@ -1,19 +1,20 @@
 "use client";
-import { useState } from "react";
-import { Dialog, Switch } from "@headlessui/react";
+import { useContext, useState, useRef } from "react";
+import { Switch } from "@headlessui/react";
 import {
   BellIcon,
-  CreditCardIcon,
   CubeIcon,
   FingerPrintIcon,
   UserCircleIcon,
   UsersIcon,
-  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { classNames } from "@/utils/classNames";
 import useSWR from "swr";
-import Image from "next/image";
 import LoadingComponent from "@/app/loading";
+import { toast } from "react-toastify";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { SubscriptionContext } from "@/context/SubscriptionContext";
 
 const secondaryNavigation = [
   { name: "General", href: "#", icon: UserCircleIcon, current: true },
@@ -25,11 +26,55 @@ const secondaryNavigation = [
 export default function Example({ params }) {
   const [automaticTimezoneEnabled, setAutomaticTimezoneEnabled] =
     useState(true);
+  const [upLoading, setUploading] = useState(false);
+  const [code, setCode] = useState("false");
+  const { updatePlan } = useContext(SubscriptionContext);
+  const inputRef = useRef();
+  const session = useSession();
+  const router = useRouter();
+  if (session.status === "unauthenticated") {
+    router.push("/auth/login");
+  }
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data, mutate, error, isLoading } = useSWR(
     `/api/auth/user/${params.id}`,
     fetcher
   );
+
+  const handleSubmitCode = async (e) => {
+    setUploading(true);
+    if (code === "DEVER") {
+      try {
+        const response = await fetch(`/api/auth/user/${params.id}`, {
+          method: "PUT",
+          body: JSON.stringify({
+            subscription: "WANG",
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        mutate();
+        await updatePlan(data.subscription);
+        setCode("");
+        toast.success("Promotion Code applied successfully!");
+        setUploading(false);
+      } catch (error) {
+        console.error("Error updating rating:", error);
+        toast.error("Error updating rating");
+      }
+    } else if (code === "JPESEWANG") {
+      toast.success("Premium Code!");
+    } else {
+      toast.error("Code is invalid!");
+    }
+  };
+  console.log(">>CHECK", session);
+  if (data) {
+    const currentPlan = data.subscription;
+    console.log(">> CHECK PLAN", currentPlan);
+  }
+
   return (
     <>
       {isLoading ? (
@@ -216,49 +261,61 @@ export default function Example({ params }) {
                 </dl>
               </div>
               <div>
-                <h2 className="text-base font-semibold leading-7 text-gray-900">
-                  Contact
+                <h2
+                  className="text-base font-semibold leading-7 text-gray-900"
+                  id="promotion"
+                >
+                  Promotion code
                 </h2>
                 <p className="mt-1 text-sm leading-6 text-gray-500">
-                  Connect bank accounts to your account.
+                  This information will be displayed publicly so be careful what
+                  you share.
                 </p>
-
-                <ul
-                  role="list"
-                  className="mt-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6"
-                >
-                  <li className="flex justify-between gap-x-6 py-6">
-                    <div className="font-medium text-gray-900">
-                      TD Canada Trust
-                    </div>
-                    <button
-                      type="button"
-                      className="font-semibold text-indigo-600 hover:text-indigo-500"
-                    >
-                      Update
-                    </button>
-                  </li>
-                  <li className="flex justify-between gap-x-6 py-6">
-                    <div className="font-medium text-gray-900">
-                      Royal Bank of Canada
-                    </div>
-                    <button
-                      type="button"
-                      className="font-semibold text-indigo-600 hover:text-indigo-500"
-                    >
-                      Update
-                    </button>
-                  </li>
-                </ul>
-
-                <div className="flex border-t border-gray-100 pt-6">
-                  <button
-                    type="button"
-                    className="text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-                  >
-                    <span aria-hidden="true">+</span> Add another bank
-                  </button>
-                </div>
+                <dl className="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
+                  <div className="pt-6 sm:flex">
+                    <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+                      Current plan
+                    </dt>
+                    <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                      <div className="text-gray-900">{data.subscription}</div>
+                      <button
+                        type="button"
+                        className="font-semibold text-indigo-600 hover:text-indigo-500"
+                      >
+                        Upgrade
+                      </button>
+                    </dd>
+                  </div>
+                </dl>
+                <dl className="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
+                  <div className="pt-6 sm:flex">
+                    <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">
+                      Enter your code
+                    </dt>
+                    <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                      <input
+                        className="text-gray-900 rounded ring-1 ring-gray-300 px-1.5 py-1"
+                        type="text"
+                        ref={inputRef}
+                        onChange={(e) => {
+                          setCode(e.target.value);
+                        }}
+                      />
+                      <button
+                        type="button"
+                        className="font-semibold text-indigo-600 hover:text-indigo-500"
+                        onClick={handleSubmitCode}
+                      >
+                        Submit
+                      </button>
+                    </dd>
+                  </div>
+                </dl>
+                {upLoading && (
+                  <div className="font-medium text-gray-800 my-2">
+                    Updating...
+                  </div>
+                )}
               </div>
 
               <div>

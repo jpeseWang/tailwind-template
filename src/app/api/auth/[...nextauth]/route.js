@@ -12,8 +12,6 @@ const handler = NextAuth({
       id: "credentials",
       name: "Credentials",
       async authorize(credentials) {
-        //Check if the user exists.
-
         await connect();
 
         try {
@@ -53,7 +51,7 @@ const handler = NextAuth({
     error: "/auth/login",
   },
   callbacks: {
-    jwt: ({ token, user }) => {
+    jwt: ({ token, user, trigger }) => {
       if (user) {
         token.id = user.id;
         token.username = user.username;
@@ -61,6 +59,7 @@ const handler = NextAuth({
         token.email = user.email;
         token.career = user.career;
         token.avatar = user.avatar;
+        token.subscription = user.subscription;
       }
       return token;
     },
@@ -72,6 +71,7 @@ const handler = NextAuth({
         session.email = token.email;
         session.career = token.career;
         session.avatar = token.avatar;
+        session.subscription = token.subscription;
       }
       return session;
     },

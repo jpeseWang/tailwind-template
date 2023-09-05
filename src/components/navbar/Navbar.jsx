@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import Link from "next/link";
 import React from "react";
 import DarkModeToggle from "../DarkModeToggle/DarkModeToggle";
@@ -10,6 +10,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { classNames } from "@/utils/classNames";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
+import { SubscriptionContext } from "@/context/SubscriptionContext";
 const navigation = [
   {
     id: 1,
@@ -42,7 +43,12 @@ const navigation = [
 export default function Navbar() {
   const session = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const { updatePlan } = useContext(SubscriptionContext);
+  const handleSignOut = () => {
+    signOut().then(() => {
+      updatePlan("Unauthenticated");
+    });
+  };
   return (
     <div>
       <header className="bg-transparent border-b mb-6">
@@ -155,7 +161,9 @@ export default function Navbar() {
                             active ? "bg-gray-100" : "",
                             "block px-4 py-2 text-sm text-gray-700"
                           )}
-                          onClick={signOut}
+                          onClick={() => {
+                            handleSignOut();
+                          }}
                         >
                           Sign Out
                         </Link>
@@ -284,7 +292,9 @@ export default function Navbar() {
                                   active ? "bg-gray-100" : "",
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
-                                onClick={signOut}
+                                onClick={() => {
+                                  handleSignOut();
+                                }}
                               >
                                 Sign out
                               </Link>
