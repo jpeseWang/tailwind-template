@@ -23,7 +23,7 @@ export default function PostCreate({ isOpen, onClose, reload }) {
   const [open, setOpen] = useState(true);
   const [previewImg, setPreviewImg] = useState();
   const [uploading, setUploading] = useState(false);
-  const [content, setContent] = useState("");
+  const [sourceLang, setSourceLang] = useState("HTML");
   const [code, setCode] = useState("//Your source code go here.");
 
   let date = new Date().toUTCString().slice(5, 16);
@@ -73,6 +73,7 @@ export default function PostCreate({ isOpen, onClose, reload }) {
           authorAvatar: session.data.avatar,
           authorID: session.data.id,
           authorUsername: session.data.username,
+          sourceLang,
         }),
       });
       reload();
@@ -92,6 +93,7 @@ export default function PostCreate({ isOpen, onClose, reload }) {
       previewImg && URL.revokeObjectURL(previewImg.preview);
     };
   }, [previewImg]);
+  console.log(sourceLang);
 
   return (
     <Modal isOpen={isOpen} onRequestClose={onClose}>
@@ -212,7 +214,32 @@ export default function PostCreate({ isOpen, onClose, reload }) {
                                   />
                                 </div>
                               </div>
+                              <div className="col-span-full">
+                                <label
+                                  htmlFor="content"
+                                  className="block text-sm font-medium leading-6 text-gray-900"
+                                >
+                                  Framework Options
+                                </label>
 
+                                <div className="mt-2 rounded-md ">
+                                  <div>
+                                    <select
+                                      id="location"
+                                      name="location"
+                                      className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                      value={sourceLang}
+                                      onChange={(e) => {
+                                        setSourceLang(e.target.value);
+                                      }}
+                                    >
+                                      <option>HTML</option>
+                                      <option>React</option>
+                                      <option>Vue</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
                               <div className="col-span-full">
                                 <label
                                   htmlFor="content"

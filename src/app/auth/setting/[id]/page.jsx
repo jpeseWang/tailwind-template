@@ -48,7 +48,7 @@ export default function Example({ params }) {
         const response = await fetch(`/api/auth/user/${params.id}`, {
           method: "PUT",
           body: JSON.stringify({
-            subscription: "WANG",
+            subscription: "Plus",
           }),
           headers: {
             "Content-Type": "application/json",

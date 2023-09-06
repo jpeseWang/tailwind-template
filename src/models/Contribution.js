@@ -44,6 +44,9 @@ const contributionSchema = new Schema(
     authorUsername: {
       type: String,
     },
+    sourceLang: {
+      type: String,
+    },
     ratings: [
       {
         name: {

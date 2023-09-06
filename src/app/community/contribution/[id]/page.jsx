@@ -64,20 +64,28 @@ export default function ContributionDetails({ params }) {
               <div>
                 <div className="text-base leading-7 text-gray-700 lg:max-w-lg">
                   <p className="text-base font-semibold leading-7 text-indigo-600">
-                    Template by user
+                    Implement with {data.sourceLang}
                   </p>
                   <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                     {data.title}
                   </h1>
-                  <figcaption className="mt-4 flex gap-x-4">
+                  <figcaption className="mt-4 flex gap-x-2">
                     By
                     <img
-                      className="h-6 w-6 flex-none rounded-full bg-gray-50"
+                      className="cursor-pointer h-6 w-6 flex-none rounded-full bg-gray-50"
                       src={data.authorAvatar}
                       alt=""
+                      onClick={() => {
+                        router.push(`auth/profile/${data.authorID}`);
+                      }}
                     />
                     <div className="text-sm leading-6">
-                      <strong className="font-semibold text-gray-900">
+                      <strong
+                        className="cursor-pointer font-semibold text-gray-900"
+                        onClick={() => {
+                          router.push(`auth/profile/${data.authorID}`);
+                        }}
+                      >
                         @{data.authorUsername}
                       </strong>
                       {" - "}
