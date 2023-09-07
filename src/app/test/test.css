@@ -1,0 +1,115 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Creepster&family=Source+Serif+Pro&display=swap");
+.container {
+  height: 100vh;
+  overflow-x: hidden;
+
+  perspective: 20px;
+}
+.parallax {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transform-style: preserve-3d;
+}
+.bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url(https://images.unsplash.com/photo-1682685795463-0674c065f315?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1926&q=80);
+  background-size: cover;
+  background-position: center;
+  transform: translateZ(-10px) scale(1);
+}
+.content {
+  color: white;
+  font-size: xxx-large;
+  transform: translateZ(10px);
+  font-family: "Caveat", cursive;
+  z-index: 10;
+}
+.static {
+  height: 100vh;
+  background-image: linear-gradient(to bottom, transparent, #0f0808 50px);
+  transform: translateY(-80px);
+}
+.e1 {
+  position: absolute;
+  width: 20%;
+  transform: translateZ(17px) translateX(10px) translateY(70px);
+}
+.e2 {
+  position: absolute;
+  width: 80%;
+  transform: rotate(35deg);
+  transform: translateZ(7px) translateX(170px) translateY(-100px);
+  opacity: 0.4;
+}
+.static2 {
+  height: 100vh;
+  background-image: linear-gradient(to bottom, transparent, #090329 50px);
+  transform: translateY(-130px);
+  display: flex;
+  padding: 5%;
+  color: white;
+  font-size: x-large;
+
+  font-family: "Source Serif Pro", serif;
+}
+.title {
+  display: block;
+}
+.static h1 {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: xxx-large;
+
+  font-family: "Caveat", cursive;
+}
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 18px 10%;
+  background: transparent;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.logo {
+  position: relative;
+  font-size: 30px;
+  color: #ededed;
+  text-decoration: none;
+  font-weight: 600;
+}
+.logo::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: #081b29;
+  animation: showRight 1s ease forwards;
+  animation-delay: 0.4s;
+}
+.navbar a {
+  font-size: 140%;
+  color: #2e2f2f;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 35px;
+}
+.navbar a:hover,
+.navbar a.active {
+  color: #4886a5;
+}
