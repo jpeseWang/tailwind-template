@@ -1,7 +1,7 @@
+import Link from "next/link";
 const navigation = {
   main: [
     { name: "About", href: "#" },
-
     { name: "Jobs", href: "#" },
     { name: "Press", href: "#" },
     { name: "Accessibility", href: "#" },
@@ -76,6 +76,23 @@ export default function Footer() {
   return (
     <footer className="bg-white ">
       <div className="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-24 lg:px-8 border-t mt-6">
+        <div className="flex lg:flex-1 items-center justify-center py-6">
+          {" "}
+          <Link
+            href="#"
+            className="-m-1.5 p-1.5 flex items-center justify-center"
+          >
+            {" "}
+            <img
+              className="h-8 w-auto"
+              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+              alt=""
+            />
+            <p className="ml-2 font-semibold aton text-gray-600">
+              Tailwind Template
+            </p>{" "}
+          </Link>
+        </div>
         <nav
           className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"
           aria-label="Footer"

@@ -2,13 +2,13 @@
 "use client";
 import { create } from "zustand";
 import { Highlight, themes } from "prism-react-renderer";
-import CopyButton from "./CopyButton";
-import SnippetLang from "./SnippetLang";
+import CopyButton from "@/app/components/codePreview/CopyButton";
+import SnippetLang from "@/app/components/codePreview/SnippetLang";
 import htmlCode from "../resources/html-code";
 import reactCode from "../resources/react-code";
 import vueCode from "../resources/vue-code";
-import customTheme from "../resources/customeTheme";
-import "../styles.css";
+import customTheme from "@/styles/customeTheme";
+import "@/styles/codePreview.css";
 
 const useStore = create((set, get) => ({
   lang: "html",
@@ -26,7 +26,7 @@ const useStore = create((set, get) => ({
   },
 }));
 
-export default function CodePreview() {
+export default function Com10() {
   const { lang, setLang, getCode } = useStore();
   const code = getCode();
 

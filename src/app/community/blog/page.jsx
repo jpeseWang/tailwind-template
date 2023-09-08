@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import LoadingComponent from "@/app/loading";
 import LoadingBlog from "../loading";
+import { motion } from "framer-motion";
 
 export default function Blog() {
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -87,73 +88,82 @@ export default function Blog() {
                   .slice()
                   .reverse()
                   .map((post) => (
-                    <article
-                      key={post.id}
-                      className="relative isolate flex flex-col gap-8 lg:flex-row"
+                    <motion.div
+                      initial={{ x: 0, opacity: 0 }}
+                      whileInView={{ x: [-150, 0], opacity: 1 }}
+                      exit={{ opacity: 0, y: -50 }}
+                      whileHover={{ scale: 1.1 }}
+                      key={post._id}
+                      className="workImages"
                     >
-                      <div className="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0">
-                        <img
-                          src={post.imgSrc}
-                          alt=""
-                          className="absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover"
-                        />
-                        <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-x-4 text-xs">
-                          <time
-                            dateTime={post.datetime}
-                            className="text-gray-500"
-                          >
-                            {post.date}
-                          </time>
-                          <div className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
-                            Blog
+                      <article
+                        key={post.id}
+                        className="relative isolate flex flex-col gap-8 lg:flex-row"
+                      >
+                        <div className="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0">
+                          <img
+                            src={post.imgSrc}
+                            alt=""
+                            className="absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover"
+                          />
+                          <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-x-4 text-xs">
+                            <time
+                              dateTime={post.datetime}
+                              className="text-gray-500"
+                            >
+                              {post.date}
+                            </time>
+                            <div className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
+                              Blog
+                            </div>
                           </div>
-                        </div>
-                        <div
-                          className="group relative max-w-xl cursor-pointer"
-                          onClick={() => {
-                            router.push(`/community/blog/${post._id}`);
-                          }}
-                        >
-                          <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                            <a href={post.href}>
-                              <span className="absolute inset-0" />
-                              {post.title.slice(0, 50)}
-                            </a>
-                          </h3>
-                          <p className="mt-5 text-sm leading-6 text-gray-600">
-                            {post.description.slice(0, 201)}...
-                          </p>
-                        </div>
-                        <div className="mt-6 flex border-t border-gray-900/5 pt-6">
                           <div
-                            className="relative flex items-center gap-x-4 cursor-pointer"
+                            className="group relative max-w-xl cursor-pointer"
                             onClick={() => {
-                              router.push(`/auth/profile/${post.authorID}`);
+                              router.push(`/community/blog/${post._id}`);
                             }}
                           >
-                            <img
-                              src={post.authorAvatar}
-                              alt=""
-                              className="h-10 w-10 rounded-full bg-gray-50"
-                            />
-                            <div className="text-sm leading-6">
-                              <p className="font-semibold text-gray-900">
-                                <a href={post.author.href}>
-                                  <span className="absolute inset-0" />
-                                  {post.author}
-                                </a>
-                              </p>
-                              <p className="text-gray-600">
-                                {post.authorCareer}
-                              </p>
+                            <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                              <a href={post.href}>
+                                <span className="absolute inset-0" />
+                                {post.title.slice(0, 50)}
+                              </a>
+                            </h3>
+                            <p className="mt-5 text-sm leading-6 text-gray-600">
+                              {post.description.slice(0, 201)}...
+                            </p>
+                          </div>
+                          <div className="mt-6 flex border-t border-gray-900/5 pt-6">
+                            <div
+                              className="relative flex items-center gap-x-4 cursor-pointer"
+                              onClick={() => {
+                                router.push(`/auth/profile/${post.authorID}`);
+                              }}
+                            >
+                              <img
+                                src={post.authorAvatar}
+                                alt=""
+                                className="h-10 w-10 rounded-full bg-gray-50"
+                              />
+                              <div className="text-sm leading-6">
+                                <p className="font-semibold text-gray-900">
+                                  <a href={post.author.href}>
+                                    <span className="absolute inset-0" />
+                                    {post.author}
+                                  </a>
+                                </p>
+                                <p className="text-gray-600">
+                                  {post.authorCareer}
+                                </p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </article>
+                      </article>
+                    </motion.div>
                   ))}
               </>
             )}

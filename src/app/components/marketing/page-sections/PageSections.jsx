@@ -6,6 +6,15 @@ import ctaSections from "@/assets/images/category-thumbnails/marketing/page-sect
 import pricing from "@/assets/images/category-thumbnails/marketing/page-sections/pricing.png";
 import header from "@/assets/images/category-thumbnails/marketing/page-sections/header.png";
 import newsletterSections from "@/assets/images/category-thumbnails/marketing/page-sections/newsletter-sections.png";
+import stats from "@/assets/images/category-thumbnails/marketing/page-sections/stats-sections.png";
+import testimonials from "@/assets/images/category-thumbnails/marketing/page-sections/testimonials.png";
+import blogSec from "@/assets/images/category-thumbnails/marketing/page-sections/blog-sections.png";
+import contact from "@/assets/images/category-thumbnails/marketing/page-sections/contact-sections.png";
+import team from "@/assets/images/category-thumbnails/marketing/page-sections/team-sections.png";
+import content from "@/assets/images/category-thumbnails/marketing/page-sections/content-sections.png";
+import logoClouds from "@/assets/images/category-thumbnails/marketing/page-sections/logo-clouds.png";
+import faqs from "@/assets/images/category-thumbnails/marketing/page-sections/faq-sections.png";
+import footers from "@/assets/images/category-thumbnails/marketing/page-sections/footers.png";
 import "prismjs/themes/prism.css";
 import Link from "next/link";
 const PageSections = () => {
@@ -134,6 +143,186 @@ const PageSections = () => {
               </h4>
               <p className="relative mt-1.5 text-xs font-normal text-slate-500">
                 7 components
+              </p>
+            </div>
+          </li>
+          <li>
+            <div className="group relative before:absolute before:-inset-2.5 before:rounded-[20px] before:bg-gray-50 before:opacity-0 hover:before:opacity-100">
+              <div className="relative aspect-[2/1] overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-900/10">
+                <Image
+                  className="absolute inset-0 h-full w-full"
+                  src={stats}
+                  alt=""
+                />
+              </div>
+              <h4 className="mt-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600">
+                <a href="#">
+                  <span className="absolute -inset-2.5 z-10"></span>
+                  <span className="relative">Stats</span>
+                </a>
+              </h4>
+              <p className="relative mt-1.5 text-xs font-normal text-slate-500">
+                10 components
+              </p>
+            </div>
+          </li>{" "}
+          <li>
+            <div className="group relative before:absolute before:-inset-2.5 before:rounded-[20px] before:bg-gray-50 before:opacity-0 hover:before:opacity-100">
+              <div className="relative aspect-[2/1] overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-900/10">
+                <Image
+                  className="absolute inset-0 h-full w-full"
+                  src={testimonials}
+                  alt=""
+                />
+              </div>
+              <h4 className="mt-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600">
+                <a href="#">
+                  <span className="absolute -inset-2.5 z-10"></span>
+                  <span className="relative">Testimonials</span>
+                </a>
+              </h4>
+              <p className="relative mt-1.5 text-xs font-normal text-slate-500">
+                9 components
+              </p>
+            </div>
+          </li>{" "}
+          <li>
+            <div className="group relative before:absolute before:-inset-2.5 before:rounded-[20px] before:bg-gray-50 before:opacity-0 hover:before:opacity-100">
+              <div className="relative aspect-[2/1] overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-900/10">
+                <Image
+                  className="absolute inset-0 h-full w-full"
+                  src={blogSec}
+                  alt=""
+                />
+              </div>
+              <h4 className="mt-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600">
+                <a href="#">
+                  <span className="absolute -inset-2.5 z-10"></span>
+                  <span className="relative">Blog Sections</span>
+                </a>
+              </h4>
+              <p className="relative mt-1.5 text-xs font-normal text-slate-500">
+                7 components
+              </p>
+            </div>
+          </li>
+          <li>
+            <div className="group relative before:absolute before:-inset-2.5 before:rounded-[20px] before:bg-gray-50 before:opacity-0 hover:before:opacity-100">
+              <div className="relative aspect-[2/1] overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-900/10">
+                <Image
+                  className="absolute inset-0 h-full w-full"
+                  src={contact}
+                  alt=""
+                />
+              </div>
+              <h4 className="mt-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600">
+                <a href="#">
+                  <span className="absolute -inset-2.5 z-10"></span>
+                  <span className="relative">Contact Sections</span>
+                </a>
+              </h4>
+              <p className="relative mt-1.5 text-xs font-normal text-slate-500">
+                8 components
+              </p>
+            </div>
+          </li>{" "}
+          <li>
+            <div className="group relative before:absolute before:-inset-2.5 before:rounded-[20px] before:bg-gray-50 before:opacity-0 hover:before:opacity-100">
+              <div className="relative aspect-[2/1] overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-900/10">
+                <Image
+                  className="absolute inset-0 h-full w-full"
+                  src={team}
+                  alt=""
+                />
+              </div>
+              <h4 className="mt-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600">
+                <a href="#">
+                  <span className="absolute -inset-2.5 z-10"></span>
+                  <span className="relative">Team Sections</span>
+                </a>
+              </h4>
+              <p className="relative mt-1.5 text-xs font-normal text-slate-500">
+                9 components
+              </p>
+            </div>
+          </li>{" "}
+          <li>
+            <div className="group relative before:absolute before:-inset-2.5 before:rounded-[20px] before:bg-gray-50 before:opacity-0 hover:before:opacity-100">
+              <div className="relative aspect-[2/1] overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-900/10">
+                <Image
+                  className="absolute inset-0 h-full w-full"
+                  src={content}
+                  alt=""
+                />
+              </div>
+              <h4 className="mt-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600">
+                <a href="#">
+                  <span className="absolute -inset-2.5 z-10"></span>
+                  <span className="relative">Content Sections</span>
+                </a>
+              </h4>
+              <p className="relative mt-1.5 text-xs font-normal text-slate-500">
+                6 components
+              </p>
+            </div>
+          </li>
+          <li>
+            <div className="group relative before:absolute before:-inset-2.5 before:rounded-[20px] before:bg-gray-50 before:opacity-0 hover:before:opacity-100">
+              <div className="relative aspect-[2/1] overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-900/10">
+                <Image
+                  className="absolute inset-0 h-full w-full"
+                  src={logoClouds}
+                  alt=""
+                />
+              </div>
+              <h4 className="mt-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600">
+                <a href="#">
+                  <span className="absolute -inset-2.5 z-10"></span>
+                  <span className="relative">Logo Clouds</span>
+                </a>
+              </h4>
+              <p className="relative mt-1.5 text-xs font-normal text-slate-500">
+                12 components
+              </p>
+            </div>
+          </li>{" "}
+          <li>
+            <div className="group relative before:absolute before:-inset-2.5 before:rounded-[20px] before:bg-gray-50 before:opacity-0 hover:before:opacity-100">
+              <div className="relative aspect-[2/1] overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-900/10">
+                <Image
+                  className="absolute inset-0 h-full w-full"
+                  src={faqs}
+                  alt=""
+                />
+              </div>
+              <h4 className="mt-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600">
+                <a href="#">
+                  <span className="absolute -inset-2.5 z-10"></span>
+                  <span className="relative">FAQs</span>
+                </a>
+              </h4>
+              <p className="relative mt-1.5 text-xs font-normal text-slate-500">
+                10 components
+              </p>
+            </div>
+          </li>{" "}
+          <li>
+            <div className="group relative before:absolute before:-inset-2.5 before:rounded-[20px] before:bg-gray-50 before:opacity-0 hover:before:opacity-100">
+              <div className="relative aspect-[2/1] overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-900/10">
+                <Image
+                  className="absolute inset-0 h-full w-full"
+                  src={footers}
+                  alt=""
+                />
+              </div>
+              <h4 className="mt-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600">
+                <a href="#">
+                  <span className="absolute -inset-2.5 z-10"></span>
+                  <span className="relative">Footers</span>
+                </a>
+              </h4>
+              <p className="relative mt-1.5 text-xs font-normal text-slate-500">
+                10 components
               </p>
             </div>
           </li>

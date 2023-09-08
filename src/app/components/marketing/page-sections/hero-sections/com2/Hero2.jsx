@@ -1,9 +1,8 @@
 "use client";
 import Link from "next/link";
 import Preview from "./UI/Preview";
-import Code from "./code/App";
 import { useState } from "react";
-
+import Com2 from "./code/components/CodePreview";
 export default function Hero2() {
   const [activeTab, setActiveTab] = useState("preview");
   const handleTabChange = (tab) => {
@@ -82,7 +81,7 @@ export default function Hero2() {
           <div className="col-span-2 row-start-2 min-w-0">
             <div className="w-full overflow-hidden rounded-lg ring-1 ring-slate-900/10 relative mt-6">
               {" "}
-              {activeTab === "preview" ? <Preview /> : <Code />}
+              {activeTab === "preview" ? <Preview /> : <Com2 />}
             </div>
             <div class="absolute inset-y-0 left-full hidden cursor-ew-resize items-center px-2 sm:flex">
               <div class="h-8 w-1.5 rounded-full bg-slate-400"></div>

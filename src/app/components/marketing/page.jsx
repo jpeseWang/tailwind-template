@@ -1,7 +1,8 @@
 import React from "react";
-import Image from "next/image";
 import PageSections from "./page-sections/PageSections";
-
+import Elements from "./elements/Elements";
+import Feedbacks from "./feedback/Feedback";
+import PageExamples from "./page-examples/PageExamples";
 const Marketing = () => {
   return (
     <>
@@ -14,6 +15,9 @@ const Marketing = () => {
         </p>
         <div className="mt-10 divide-y divide-slate-100 border-t border-slate-100 lg:mt-12">
           <PageSections />
+          <Elements />
+          <Feedbacks />
+          <PageExamples />
         </div>
       </section>
     </>

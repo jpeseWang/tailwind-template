@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 "use client";
 import { Highlight, themes } from "prism-react-renderer";
-import customTheme from "@/app/styles/customeTheme";
+import customTheme from "@/styles/customeTheme";
 import "./styles.css";
 
 export default function CodePreview({ code }) {
