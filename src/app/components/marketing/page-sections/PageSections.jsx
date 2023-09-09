@@ -56,10 +56,10 @@ const PageSections = () => {
                 />
               </div>
               <h4 className="mt-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600">
-                <a href="#">
+                <Link href="/components/marketing/page-sections/feature-sections">
                   <span className="absolute -inset-2.5 z-10"></span>
                   <span className="relative">Feature Sections</span>
-                </a>
+                </Link>
               </h4>
               <p className="relative mt-1.5 text-xs font-normal text-slate-500">
                 18 components
@@ -131,7 +131,7 @@ const PageSections = () => {
               <div className="relative aspect-[2/1] overflow-hidden rounded-lg bg-gray-100 ring-1 ring-gray-900/10">
                 <Image
                   className="absolute inset-0 h-full w-full"
-                  src={heroes}
+                  src={newsletterSections}
                   alt=""
                 />
               </div>

@@ -17,6 +17,12 @@ import Hero15 from "./com15/Hero15";
 import Hero16 from "./com16/Hero16";
 import Hero17 from "./com17/Hero17";
 import Hero18 from "./com18/Hero18";
+import Hero19 from "./com19/Hero19";
+import Hero20 from "./com20/Hero20";
+import Hero21 from "./com21/Hero21";
+import Hero22 from "./com22/Hero22";
+import Hero23 from "./com23/Hero23";
+
 export default function Page() {
   return (
     <>
@@ -24,7 +30,7 @@ export default function Page() {
         <div className="relative mx-auto mt-2 w-full max-w-container px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col">
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-900">
-              Hero Sections
+              Feature Sections
             </h1>
             <nav
               aria-label="Breadcrumbs"
@@ -66,6 +72,11 @@ export default function Page() {
             <Hero16 />
             <Hero17 />
             <Hero18 />
+            <Hero19 />
+            <Hero20 />
+            <Hero21 />
+            <Hero22 />
+            <Hero23 />
           </div>
         </div>
       </div>
