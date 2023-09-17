@@ -51,6 +51,37 @@ const userSchema = new Schema(
       type: String,
       required: false,
     },
+    message: [
+      {
+        sender: {
+          type: String,
+          required: true,
+        },
+        receiver: {
+          type: String,
+          required: true,
+        },
+        content: {
+          type: String,
+          required: true,
+        },
+        date: {
+          type: String,
+          required: true,
+        },
+        senderFullname: {
+          type: String,
+          required: true,
+        },
+        senderAvatar: {
+          type: String,
+        },
+        senderID: {
+          type: String,
+        },
+      },
+      { timestamps: true },
+    ],
   },
   { timestamps: true }
 );

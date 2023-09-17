@@ -12,12 +12,6 @@ import { useRouter } from "next/navigation";
 import { SubscriptionContext } from "@/context/SubscriptionContext";
 const navigation = [
   {
-    id: 1,
-    title: "About",
-    url: "/about",
-  },
-
-  {
     id: 3,
     title: "Components",
     url: "/components",
@@ -136,6 +130,19 @@ export default function Header() {
                           )}
                         >
                           Your Profile
+                        </Link>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link
+                          href={`/community/message`}
+                          className={classNames(
+                            active ? "bg-gray-100" : "",
+                            "block px-4 py-2 text-sm text-gray-700"
+                          )}
+                        >
+                          Message
                         </Link>
                       )}
                     </Menu.Item>
@@ -267,6 +274,19 @@ export default function Header() {
                                 )}
                               >
                                 Your Profile
+                              </Link>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <Link
+                                href={`/community/message`}
+                                className={classNames(
+                                  active ? "bg-gray-100" : "",
+                                  "block px-4 py-2 text-sm text-gray-700"
+                                )}
+                              >
+                                Message
                               </Link>
                             )}
                           </Menu.Item>

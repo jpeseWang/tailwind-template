@@ -5,6 +5,7 @@ import AuthProvider from "@/components/AuthProvider/AuthProvider";
 import { BackgroundColor } from "@/components/Theme/bgColor";
 import ToastProvider from "@/components/ToastContainer/ToastContainer";
 import { SubscriptionContextProvider } from "@/context/SubscriptionContext";
+import { CurrentTabProvider } from "@/context/CurrentMessTab";
 import "react-quill/dist/quill.snow.css";
 import "prismjs/themes/prism.css";
 import "./globals.css";
@@ -26,13 +27,15 @@ export default function RootLayout({ children }) {
         <ToastProvider>
           <AuthProvider>
             <SubscriptionContextProvider>
-              <Toaster />
-              <BackgroundColor />
-              <div className="container relative">
-                <Header />
-                {children}
-                <Footer />
-              </div>
+              <CurrentTabProvider>
+                <Toaster />
+                <BackgroundColor />
+                <div className="container relative">
+                  <Header />
+                  {children}
+                  <Footer />
+                </div>
+              </CurrentTabProvider>
             </SubscriptionContextProvider>
           </AuthProvider>
         </ToastProvider>

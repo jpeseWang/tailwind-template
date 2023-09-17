@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useContext, useState } from "react";
-
+import { useEffect } from "react";
+import { Fragment, useState } from "react";
+import { Bars3Icon } from "@heroicons/react/24/outline";
 import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/20/solid";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
@@ -11,8 +12,6 @@ import NotFoundUser from "../not-found";
 import ProfileInformation from "./ProfileInfomation/ProfileInformation";
 import ProfileBlog from "./ProfileBlog/ProfileBlog";
 import ProfileContribution from "./ProfileContribution/ProfileContribution";
-import Link from "next/link";
-import { CurrentTabContext } from "@/context/CurrentMessTab";
 
 const tabs = [
   { name: "Profile", href: "#", current: true },
@@ -22,28 +21,24 @@ const tabs = [
 
 export default function Example({ params }) {
   const [dataLoaded, setDataLoaded] = useState(false);
-  const [currentTab, setCurrentTab] = useState("Profile");
-  const [isActive, setIsActive] = useState(true);
   const session = useSession();
   const router = useRouter();
-
-  const { updateInboxTab, updateInboxId, inboxTab, inboxId } =
-    useContext(CurrentTabContext);
+  const [currentTab, setCurrentTab] = useState("Profile");
+  const [isActive, setIsActive] = useState(true);
   const handleActiveTab = (item) => {
     setIsActive(true);
     setCurrentTab(item);
   };
-
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const { data, mutate, error, isLoading } = useSWR(
     `/api/auth/user/${params.id}`,
     fetcher
   );
+
   const { dataBlog, mutateBlog, errorBlog, isLoadingBlog } = useSWR(
     "/api/posts",
     fetcher
   );
-  const { data: dataMessage } = useSWR(`/api/message`, fetcher);
   const {
     dataContribute,
     mutateContribute,
@@ -51,48 +46,6 @@ export default function Example({ params }) {
     isLoadingContribute,
   } = useSWR("/api/contribution", fetcher);
   const { data: friendRequestData } = useSWR("/api/auth/user", fetcher);
-  const handleRouteMessage = async () => {
-    const filteredMessages = dataMessage?.filter(
-      (p) =>
-        (p.receiver === session.data.id && p.sender === params.id) ||
-        (p.sender === session.data.id && p.receiver === params.id)
-    );
-    console.log("CHECK >>", filteredMessages.length);
-    if (filteredMessages.length == 0) {
-      try {
-        const response = await fetch(`/api/message`, {
-          method: "POST",
-          body: JSON.stringify({
-            chatId: session.data.id,
-            sender: session.data.id,
-            senderUsername: session.data.username,
-            senderFullname: session.data.fullname,
-            senderAvatar: session.data.avatar,
-
-            receiver: data._id,
-            receiverUsername: data.username,
-            receiverFullname: data.fullname,
-            receiverAvatar: data.avatar,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        if (response.ok) {
-          console.log("Rating updated successfully");
-        }
-
-        e.target.reset();
-      } catch (error) {
-        console.error("Error updating rating:", error);
-      }
-      router.push("/community/message");
-      console.log("Create new");
-    } else {
-      router.push("/community/message");
-      console.log("Exist");
-    }
-  };
 
   useEffect(() => {
     if (data && friendRequestData) {
@@ -150,9 +103,6 @@ export default function Example({ params }) {
                               <button
                                 type="button"
                                 className="inline-flex justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                onClick={() => {
-                                  handleRouteMessage();
-                                }}
                               >
                                 <EnvelopeIcon
                                   className="-ml-0.5 h-5 w-5 text-gray-400"
@@ -234,8 +184,7 @@ export default function Example({ params }) {
                         {friendRequestData
                           .filter((p) => p._id !== session.data.id)
                           .map((person) => (
-                            <Link
-                              href={`/auth/profile/${person._id}`}
+                            <div
                               key={person._id}
                               className="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-pink-500 focus-within:ring-offset-2 hover:border-gray-400"
                             >
@@ -260,7 +209,7 @@ export default function Example({ params }) {
                                   </p>
                                 </a>
                               </div>
-                            </Link>
+                            </div>
                           ))}
                       </div>
                     </div>
