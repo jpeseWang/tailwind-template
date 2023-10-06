@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header/Header";
 import { Toaster } from "react-hot-toast";
-import Script from "next/script";
+import GoogleAnalytics from "@/components/GoogleAnalytics/GoogleAnalytics";
 const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "Tailwind Template",
@@ -24,10 +24,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <Script
-        async
-        src="https://www.googletagmanager.com/gtag/js?id=G-M219HNR5VL"
-      />
+      <GoogleAnalytics GA_MEASUREMENT_ID="G-M219HNR5VL" />
       <body className={inter.className}>
         <ToastProvider>
           <AuthProvider>
